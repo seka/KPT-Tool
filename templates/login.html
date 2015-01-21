@@ -19,14 +19,14 @@
   <header>
   </header>
   <div class="container">
-    <form action="" method="POST">
-      <dl>
-        <dt>UserID:
-        <dd><input type=text name=usrid />
-        <dt>Password:
-        <dd><input type=password name=usrpw />
-        <dd><input type=submit value=Login />
-      </dl>
+    <form action={{ url_for("signin") }} method="POST">
+      <ol>
+        <li class="label">Name:</li>
+        <li><input type="text" placeholder="Enter your name" name="username" /></li>
+        <li class="label">Password:</li>
+        <li><input type="password" placeholder="Enter your password" name="password" /></li>
+        <li><button class="btn" type="submit" data-wait="Please wait...">Submit</button></li>
+      </ol>
     </form>
   </div>
   <footer>
