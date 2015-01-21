@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-language" content="ja">
+  <meta http-equiv="content-type" content="text/html" charset="UTF-8">
+
+  <title>KPTER</title>
+
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- stylesheets -->
+  <!-- end -->
+
+  <!-- javascripts -->
+  <!-- end -->
+</head>
+<body>
+  <header>
+  </header>
+  <div class="container">
+    <form action="{{ url_for('login') }}" method="POST">
+      <dl>
+        <dt>UserID:
+        <dd><input type=text name=usrid />
+        <dt>Password:
+        <dd><input type=password name=usrpw />
+        <dd><input type=submit value=Login />
+      </dl>
+    </form>
+  </div>
+  <footer>
+  </footer>
+</body>
+</html>
+
