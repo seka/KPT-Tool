@@ -3,17 +3,33 @@
 
 from flask import *
 from db.Base import Base
+from db.Users import Users
 
 app = Flask(__name__)
 app.debug = True
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
 
 test_user = {
-  "test" : {
-    "name" : "test"
+    "username" : "test"
     , "password" : "29148931"
-  }
+    , "salt" : "1234"
+    , "admin" : "1"
 }
+
+print "test ----------"
+users = Users()
+users2 = Users()
+print users, users2
+
+print "test1 ----------"
+users = Users()
+users2 = Users()
+print users, users2
+
+print "test2 ----------"
+users = Users()
+users2 = Users()
+print users, users2
 
 @app.before_request
 def before_request():
@@ -39,7 +55,7 @@ def signin():
   user = test_user
   result = user.has_key(req["username"])
 
-  if result == False or user[req["username"]]["password"] != req["password"]:
+  if result == False or req["password"] != req["password"]:
     return render_template("login.html", error="IDまたはパスワードが違います")
   return render_template("test.html")
 

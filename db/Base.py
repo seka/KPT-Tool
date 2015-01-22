@@ -1,31 +1,21 @@
+#!usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import sqlite3
 
 class Base(object):
   instance = None
 
-  class __Base:
-    def __init__(self, argv):
-      self.path = "database.db"
-      self.connection = sqlite3.connect(self.path)
+  def __new__(cls, *args, **kwargs):
+    if not cls.instance:
+      cls.instance = super(Base, cls).__new__(cls, *args, **kwargs)
+    return cls.instance
 
-  def __new__(self, *argc, **argv):
-    if not self.instance:
-      self.instance = Base.__Base(argv)
-    return self.instance
+  def __init__(self):
+    self.path = "db/database.db"
+    self.connection = sqlite3.connect(self.path)
+    self.cursor = self.connection.cursor()
 
   def getConection():
     return self.connection
-
-  def create(database):
-    pass
-
-  def find(database, key={}):
-    pass
-
-  def save(database, obj={}):
-    pass
-
-  def delete(database, key={}):
-    pass
-
 
