@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import *
+from db.Base import Base
 
 app = Flask(__name__)
 app.debug = True
@@ -13,6 +14,16 @@ test_user = {
     , "password" : "29148931"
   }
 }
+
+@app.before_request
+def before_request():
+  base = Base()
+  g.db = base.connection
+
+@app.after_request
+def after_request(response):
+  g.db.close()
+  return response
 
 @app.route("/")
 def index():

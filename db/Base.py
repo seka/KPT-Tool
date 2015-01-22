@@ -4,18 +4,16 @@ class Base(object):
   instance = None
 
   class __Base:
-    def __init__(self, arg):
-        self.path = "database.db"
-        self.connection = sqlite3.connect(self.path)
+    def __init__(self, argv):
+      self.path = "database.db"
+      self.connection = sqlite3.connect(self.path)
 
-  def _init_(self, args):
+  def __new__(self, *argc, **argv):
     if not self.instance:
-      self.instance = Base.__Base(arg)
+      self.instance = Base.__Base(argv)
+    return self.instance
 
-  def __getattr__(self):
-    return getattr(self.instance)
-
-  def checkConection():
+  def getConection():
     return self.connection
 
   def create(database):
