@@ -1,36 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="content-language" content="ja">
-  <meta http-equiv="content-type" content="text/html" charset="UTF-8">
+{% extends "layout.html" %}
 
-  <title>KPTER</title>
+{% block stylesheets %}
+{% endblock %}
 
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+{% block javascripts %}
+{% endblock %}
 
-  <!-- stylesheets -->
-  <!-- end -->
-
-  <!-- javascripts -->
-  <!-- end -->
-</head>
-<body>
-  <header>
-  </header>
-  <div class="container">
-    <form action={{ url_for("signin") }} method="POST">
-      <ol>
-        <li class="label">Name:</li>
-        <li><input type="text" placeholder="Enter your name" name="username" /></li>
-        <li class="label">Password:</li>
-        <li><input type="password" placeholder="Enter your password" name="password" /></li>
-        <li><button class="btn" type="submit" data-wait="Please wait...">Submit</button></li>
-      </ol>
-    </form>
-  </div>
-  <footer>
-  </footer>
-</body>
-</html>
-
+{% block body %}
+<div>
+  <form action={{ url_for("signin") }} method="POST">
+    <p><label for="name">Name:</label></p>
+    <p><input type="text" placeholder="Enter your name" id="name" name="username" /></p>
+    <p><label for="passwd">Password:</label></p>
+    <p><input type="password" placeholder="Enter your password" id="passwd" name="password" /></p>
+    <p><button class="btn" type="submit" data-wait="Please wait...">Submit</button></p>
+  </form>
+</div>
+{% endblock %}
