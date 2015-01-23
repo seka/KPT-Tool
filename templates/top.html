@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block src %}
-  <script src="{{ url_for('static', filename='javascripts/top/app.coffee')}}"></script>
+  <script src="{{ url_for('static', filename='javascripts/top/app.coffee')}}" defer></script>
 {% endblock %}
 
 {% block body %}
