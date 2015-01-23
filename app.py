@@ -38,14 +38,20 @@ def index():
 @app.route('/signin', methods=["POST"])
 def signin():
   req = {
-    "username" : request.form["username"].rstrip()
-    , "password" : request.form["password"].rstrip()
+    "username" : request.form["username"]
+    , "password" : request.form["password"].encode("utf-8")
   }
 
-  users = Users()
-  user = users.find("username='{username}'".format(**req))
+  user_model = Users()
+  user = user_model.find("username='%s'" % req["username"])
 
-  if user is None or user["password"] != req["password"]:
+  if user is None:
+    return render_template("login.html", error="IDまたはパスワードが違います")
+
+  hashpw = user["password"]
+  salt = user["salt"].encode("utf-8")
+
+  if user_model.check_passwd(req["password"], salt, hashpw) != True:
     return render_template("login.html", error="IDまたはパスワードが違います")
 
   return render_template("test.html")
