@@ -9,12 +9,9 @@
   <meta name="description" content="プロジェクトを振り返り作業を効率化">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- stylesheets -->
-    {% block stylesheets %}{% endblock %}
-  <!-- end -->
-
-  <!-- javascripts -->
-    {% block javascripts %}{% endblock %}
+  <!-- src -->
+  <script src="{{ url_for('static', filename='bower_components/requirejs/require.js')}}"></script>
+  {% block src %}{% endblock %}
   <!-- end -->
 </head>
 <body>

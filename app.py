@@ -33,7 +33,7 @@ def after_request(response):
 
 @app.route("/")
 def index():
-    return render_template("login.html")
+    return render_template("top.html")
 
 @app.route('/signin', methods=["POST"])
 def signin():
