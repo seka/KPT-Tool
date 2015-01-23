@@ -9,27 +9,17 @@ app = Flask(__name__)
 app.debug = True
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
 
+# test --------------------
 test_user = {
-    "username" : "test"
-    , "password" : "29148931"
-    , "salt" : "1234"
-    , "admin" : "1"
+  "username" : "test"
+  , "password" : "29148931"
+  , "salt" : "1234"
+  , "admin" : "1"
 }
-
-print "test ----------"
 users = Users()
-users2 = Users()
-print users, users2
-
-print "test1 ----------"
-users = Users()
-users2 = Users()
-print users, users2
-
-print "test2 ----------"
-users = Users()
-users2 = Users()
-print users, users2
+users.create()
+users.save(test_user)
+# end --------------------
 
 @app.before_request
 def before_request():
@@ -48,17 +38,17 @@ def index():
 @app.route('/signin', methods=["POST"])
 def signin():
   req = {
-    "username" : request.form["username"]
-    , "password" : request.form["password"]
+    "username" : request.form["username"].rstrip()
+    , "password" : request.form["password"].rstrip()
   }
 
-  user = test_user
-  result = user.has_key(req["username"])
+  users = Users()
+  user = users.find("username='{username}'".format(**req))
 
-  if result == False or req["password"] != req["password"]:
+  if user is None or user["password"] != req["password"]:
     return render_template("login.html", error="IDまたはパスワードが違います")
-  return render_template("test.html")
 
+  return render_template("test.html")
 
 @app.route('/signout', methods=["POST"])
 def signout():

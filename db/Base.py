@@ -14,6 +14,7 @@ class Base(object):
   def __init__(self):
     self.path = "db/database.db"
     self.connection = sqlite3.connect(self.path)
+    self.connection.row_factory = sqlite3.Row
     self.cursor = self.connection.cursor()
 
   def getConection():

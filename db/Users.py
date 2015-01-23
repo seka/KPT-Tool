@@ -7,9 +7,9 @@ class Users(Base):
   table_name = "Users"
   model = """
     id INTEGER PRIMARY KEY AUTOINCREMENT
-    , username STRING NOT NULL
-    , password STRING NOT NULL
-    , salt STRING NOY NULL
+    , username TEXT NOT NULL
+    , password TEXT NOT NULL
+    , salt TEXT
     , admin INTEGER NOT NULL
   """
   scheme = None
@@ -20,18 +20,21 @@ class Users(Base):
     self.scheme = scheme
 
   def create(self):
-    sql = "DROP TABLE IF EXISTS %s;" % self.table_name
+    sql = u"DROP TABLE IF EXISTS %s;" % self.table_name
     self.cursor.execute(sql)
 
-    sql = "CREATE TABLE %s (%s);" % (self.table_name, self.model)
+    sql = u"CREATE TABLE %s (%s);" % (self.table_name, self.model)
     self.cursor.execute(sql)
 
-  def find(conditional=""):
+  def find(self, conditional=""):
+    sql = ""
+
     if conditional:
-      sql += "SELECT * FROM %s WHERE %s;" % (self.table_name, conditional)
+      sql = u"SELECT * FROM %s WHERE %s;" % (self.table_name, conditional)
     else:
-      sql = "SELECT * FROM %s;" % (table_name)
-    self.cursor.execute(sql)
+      sql = u"SELECT * FROM %s;" % (self.table_name)
+
+    return self.cursor.execute(sql).fetchone()
 
   def save(self, items={}):
     keys = []
@@ -39,20 +42,19 @@ class Users(Base):
 
     for k, v in items.iteritems():
       keys.append("'" + k + "'")
-      values.append("'" + v + "'")
+      values.append("'" + v + "'") if isinstance(v, str) else values.append(v)
 
     keys = ",".join(keys)
     values = ",".join(values)
 
-    sql = "INSERT INTO %s (%s) VALUES (%s);" % (self.table_name, keys, values)
+    sql = u"INSERT INTO %s (%s) VALUES (%s);" % (self.table_name, keys, values)
     self.cursor.execute(sql)
     self.connection.commit()
 
-
-  def delete(conditional=""):
+  def delete(self, conditional=""):
     if not conditional:
       return
 
-    sql = "DELETE FROM %s WHERE %s;" % (self.table_name, conditional)
+    sql = u"DELETE FROM %s WHERE %s;" % (self.table_name, conditional)
     self.cursor.execute(sql)
     self.connection.commit()
