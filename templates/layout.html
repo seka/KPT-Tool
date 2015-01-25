@@ -16,13 +16,13 @@
 </head>
 <body>
   <header>
-    {% if session %}
-      <a href="#">About</a>
-      <a href="#">Signup</a>
-    {% else %}
-      <a href="#">About</a>
-      <a href="#">ユーザ名：</a>
-    {% endif %}
+    <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed" style="height: 100px; padding: 0.5em; background: #2d3e50;">
+      <a class="pure-menu-heading" href="#" style="padding: 5px 145px; line-height: 3.0em; color: white; font-family: serif; font-weight: 400; font-size: 170%;">KPTER</a>
+      <ul style="float: right; line-height: 3.0em; padding: 22px 145px;">
+        <li style="padding: 5px 20px;"><a href="#" style="color: #6FBEF3;">About</a></li>
+        <li style="padding: 5px 20px;"><a href="#" style="color: #6FBEF3;">?</a></li>
+      </ul>
+    </div>
   </header>
   <div class="container">
     {% block body %}{% endblock %}
