@@ -9,18 +9,23 @@
   <meta name="description" content="プロジェクトを振り返り作業を効率化">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- src -->
-  <script src="{{ url_for('static', filename='bower_components/requirejs/require.js')}}"></script>
-  {% block src %}{% endblock %}
-  <!-- end -->
+  <!-- stylesehets -->
+  {% block stylesehets %}{% endblock %}
+  <!-- css end -->
+
+  <!-- javascripts -->
+  <script src="/static/bower_components/requirejs/require.js"></script>
+  {% block javascripts %}{% endblock %}
+  <!-- js end -->
 </head>
 <body>
   <header>
-    <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed" style="height: 100px; padding: 0.5em; background: #2d3e50;">
-      <a class="pure-menu-heading" href="#" style="padding: 5px 145px; line-height: 3.0em; color: white; font-family: serif; font-weight: 400; font-size: 170%;">KPTER</a>
-      <ul style="float: right; line-height: 3.0em; padding: 22px 145px;">
-        <li style="padding: 5px 20px;"><a href="#" style="color: #6FBEF3;">About</a></li>
-        <li style="padding: 5px 20px;"><a href="#" style="color: #6FBEF3;">?</a></li>
+    <div class="pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed myheader">
+      <a class="header-title" href="#">KPTER</a>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">ルームの作成</a></li>
+        <li><a href="#">ルームへの入室</a></li>
       </ul>
     </div>
   </header>

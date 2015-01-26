@@ -3,4 +3,57 @@
 @import url("/static/bower_components/cssreset-min/index.css");
 @import url("/static/bower_components/pure/pure-min.css");
 @import url("/static/bower_components/pure/grids-responsive-min.css");
+@import url("/static/stylesheets/common/layout.css");
+
+.top-section {
+  background: url('/static/images/top/background.jpg') center top no-repeat;
+  height: 750px;
+  background-size: cover;
+}
+
+.top-section-inner {
+  position: relative;
+  top: 180px;
+  margin: auto;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.top-section-title {
+  font-family: serif;
+  font-size: 300%;
+}
+
+.top-section-supplement {
+  font-family: serif;
+  font-size: 100%;
+}
+
+.top-section-btns .btn{
+  margin-top: 0px;
+}
+
+.description-section {
+  width: 80%;
+  margin: auto;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.description-table {
+  margin: 5px;
+}
+
+.description-table-header.description-table-keep {
+  background: #FFF7B9;
+}
+
+.description-table-header.description-table-problem {
+  background: #D3F2F7;
+}
+
+.description-table-header.description-table-try {
+  background: #FFDFE2;
+}
+
 

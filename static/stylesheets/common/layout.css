@@ -1,0 +1,32 @@
+@charset "UTF-8";
+
+.pure-menu.myheader {
+  background: #2d3e50;
+}
+
+.pure-menu .header-title {
+  display: inline;
+  line-height: 3.0em;
+  color: white;
+  font-family: serif;
+  font-weight: 400;
+  font-size: 170%;
+}
+
+.pure-menu ul {
+  float: right;
+  padding: 15px;
+  line-height: 3.0em;
+  font-family: serif;
+  font-weight: 5;
+  font-size: 100%;
+}
+
+.myheader li {
+  padding: 5px 20px;
+}
+
+.myheader li a {
+  color: #6FBEF3;
+}
+
