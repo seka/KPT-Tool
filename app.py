@@ -19,7 +19,7 @@ test_user = {
 users = Users()
 users.create()
 users.save(test_user)
-# end --------------------
+# end ---------------------
 
 @app.before_request
 def before_request():
@@ -33,7 +33,11 @@ def after_request(response):
 
 @app.route("/")
 def index():
-    return render_template("top.html")
+  return render_template("top.html")
+
+@app.route("/create-room", methods=["GET"])
+def create_room():
+  return render_template("create-room.html")
 
 @app.route('/signin', methods=["POST"])
 def signin():
@@ -58,11 +62,11 @@ def signin():
 
 @app.route('/signout', methods=["POST"])
 def signout():
-    pass
+  pass
 
 @app.route('/signup', methods=["POST"])
 def signup():
-    pass
+  pass
 
 if __name__ == "__main__":
-    app.run()
+  app.run()

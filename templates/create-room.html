@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block stylesehets %}
+  <link type="text/css" rel="stylesheet" href="/static/stylesheets/top/main.css">
+{% endblock %}
+
+{% block javascripts %}
+  <script src="{{ url_for('static', filename='coffeescripts/top/config.js')}}"></script>
+{% endblock %}
+
+{% block body %}
+<section class="form-layout" style="width: 80%; height: 70%; margin: auto; position: absolute; top: 60px; left: 0; bottom: 0; right: 0; text-align: center; text-transform: uppercase;">
+  <div class="pure-u-1 pure-u-md-5-5 pure-g" style="text-align: left;">
+    <h2 style="padding-left: 20px; border-left-color: #0000ff; border-left-style: solid; border-left-width: 8px; border-bottom-color: #0000ff; border-bottom-style: solid; border-bottom-width: 1px;">ルームの作成</h2>
+    <form action={{ url_for("signin") }} method="POST" class="pure-form pure-form-stacked" style="margin: auto; width: 80%;">
+      <fieldset>
+        <label style="margin: 2em 0 0; color: #34495e; font-weight: bold; font-size: 100%;">ルームの名前:</label>
+        <input type="text" placeholder="Enter your name" name="username" size="100" />
+        <label style="margin: 2em 0 0; color: #34495e; font-weight: bold; font-size: 100%;">ルームにパスワードをつける:</label>
+        <input type="password" placeholder="Enter your password" name="password" size="100" />
+        <p style="text-align: center;"><button class="pure-button" type="submit" datawait="Please wait..." style="margin: 2em 0 0; background-color: #1f8dd6; color: white; padding: 1em 5em; border-radius: 5px;">ルームを作成する</button></p>
+      </fieldset>
+    </form>
+  </div>
+</section>
+{% endblock %}
