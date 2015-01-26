@@ -7,14 +7,25 @@
 
 .top-section {
   background: url('/static/images/top/background.jpg') center top no-repeat;
-  height: 750px;
   background-size: cover;
+  z-index: 1;
+  overflow: hidden;
+  width: 100%;
+  height: 88%;
+  top: 0;
+  left: 0;
+  position: fixed !important;
 }
 
 .top-section-inner {
-  position: relative;
-  top: 180px;
+  width: 80%;
+  height: 70%;
   margin: auto;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  bottom: 0;
+  right: 0;
   text-align: center;
   text-transform: uppercase;
 }
@@ -29,15 +40,28 @@
   font-size: 100%;
 }
 
+.top-visual img {
+  max-width: 100%;
+  height: auto;
+}
+
 .top-section-btns .btn{
   margin-top: 0px;
 }
 
 .description-section {
-  width: 80%;
+  position: absolute;
+  top: 87%;
+  width: 100%;
+  min-height: 12%;
+  z-index: 2;
+  background: white;
+}
+
+.description-contents {
+  width:80%;
   margin: auto;
   text-align: center;
-  text-transform: uppercase;
 }
 
 .description-table {
@@ -55,5 +79,4 @@
 .description-table-header.description-table-try {
   background: #FFDFE2;
 }
-
 
