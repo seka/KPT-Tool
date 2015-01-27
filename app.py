@@ -55,21 +55,21 @@ def signin_room():
 @app.route('/signin', methods=["POST"])
 def signin():
   req = {
-    "username" : request.form["username"]
+    "room_id" : request.form["room-id"]
     , "password" : request.form["password"].encode("utf-8")
   }
 
-  user_model = Users()
-  user = user_model.find("username='%s'" % req["username"])
+  room_model = Rooms()
+  room = room_model.find("room_id='%s'" % req["room_id"])
 
-  if user is None:
-    return render_template("login.html", error=u"IDまたはパスワードが違います")
+  if room is None:
+    return render_template("signin-room.html", error=u"IDまたはパスワードが違います")
 
-  hashpw = user["password"]
-  salt = user["salt"].encode("utf-8")
+  hashpw = room["password"]
+  salt = room["salt"].encode("utf-8")
 
-  if user_model.check_passwd(req["password"], salt, hashpw) != True:
-    return render_template("login.html", error=u"IDまたはパスワードが違います")
+  if room_model.check_passwd(req["password"], salt, hashpw) != True:
+    return render_template("signin-room.html", error=u"IDまたはパスワードが違います")
 
   return render_template("test.html")
 
