@@ -54,13 +54,13 @@ def signin():
   user = user_model.find("username='%s'" % req["username"])
 
   if user is None:
-    return render_template("login.html", error="IDまたはパスワードが違います")
+    return render_template("login.html", error=u"IDまたはパスワードが違います")
 
   hashpw = user["password"]
   salt = user["salt"].encode("utf-8")
 
   if user_model.check_passwd(req["password"], salt, hashpw) != True:
-    return render_template("login.html", error="IDまたはパスワードが違います")
+    return render_template("login.html", error=u"IDまたはパスワードが違います")
 
   return render_template("test.html")
 
@@ -79,10 +79,14 @@ def signup():
   room = room_model.find("room_id='%s'" % req["room_id"])
 
   if room:
-    return render_template("create_room.html", error="同名のルームが存在します")
+    return render_template("create-room.html", error=u"同名のルームが存在します")
 
   room_model.save(req)
 
+  return redirect("/room/show/" + req["room_id"])
+
+@app.route("/room/show/<room_id>", methods=["GET"])
+def show_room(room_id):
   return render_template("test.html")
 
 if __name__ == "__main__":
