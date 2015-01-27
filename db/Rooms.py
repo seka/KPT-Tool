@@ -4,17 +4,18 @@
 from db.Base import Base
 import bcrypt
 
-class Room(Base):
+class Rooms(Base):
   table_name = "Rooms"
   model = """
     id INTEGER PRIMARY KEY AUTOINCREMENT
-    , name TEXT NOT NULL
+    , room_id TEXT NOT NULL
     , password TEXT DEFAULT ''
+    , salt TEXT NOT NULL
   """
   scheme = None
 
   def __init__(self, scheme={}):
-    super(Users, self).__init__()
+    super(Rooms, self).__init__()
 
     self.scheme = scheme
 

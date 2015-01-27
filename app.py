@@ -4,6 +4,7 @@
 from flask import *
 from db.Base import Base
 from db.Users import Users
+from db.Rooms import Rooms
 
 app = Flask(__name__)
 app.debug = True
@@ -19,6 +20,9 @@ test_user = {
 users = Users()
 users.create()
 users.save(test_user)
+
+rooms = Rooms()
+rooms.create()
 # end ---------------------
 
 @app.before_request
@@ -66,7 +70,20 @@ def signout():
 
 @app.route('/signup', methods=["POST"])
 def signup():
-  pass
+  req = {
+    "room_id" : request.form["room-id"].encode("utf-8")
+    , "password" : request.form["password"].encode("utf-8")
+  }
+
+  room_model = Rooms()
+  room = room_model.find("room_id='%s'" % req["room_id"])
+
+  if room:
+    return render_template("create_room.html", error="同名のルームが存在します")
+
+  room_model.save(req)
+
+  return render_template("test.html")
 
 if __name__ == "__main__":
   app.run()
