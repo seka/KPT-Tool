@@ -48,6 +48,10 @@ def index():
 def create_room():
   return render_template("create-room.html")
 
+@app.route("/signin-room", methods=["GET"])
+def signin_room():
+  return render_template("signin-room.html")
+
 @app.route('/signin', methods=["POST"])
 def signin():
   req = {
