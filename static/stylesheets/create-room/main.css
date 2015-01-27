@@ -63,3 +63,10 @@
   padding: 1em 5em;
   border-radius: 5px;
 }
+
+.danger-message {
+  background-color: #f2dede;
+  margin: 0 0 10px;
+  box-sizing: border-box;
+  padding: 15px;
+}
