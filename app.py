@@ -21,8 +21,13 @@ users = Users()
 users.create()
 users.save(test_user)
 
+test_room = {
+  "room_id" : "seka"
+  , "password" : "29148931"
+}
 rooms = Rooms()
 rooms.create()
+rooms.save(test_room)
 # end ---------------------
 
 @app.before_request
