@@ -1,6 +1,6 @@
 (function(require) {
   require.config({
-    baseUrl: "/static/coffeescripts/top",
+    baseUrl: "/static/coffeescripts/create-room",
     paths: {
       "jquery": "/static/bower_components/jquery/dist/jquery.min"
       , "underscore": "/static/bower_components/undersore-min"

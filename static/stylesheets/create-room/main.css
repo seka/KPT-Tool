@@ -1,0 +1,65 @@
+@charset "UTF-8";
+
+@import url("/static/bower_components/cssreset-min/index.css");
+@import url("/static/bower_components/pure/pure-min.css");
+@import url("/static/bower_components/pure/grids-responsive-min.css");
+@import url("/static/stylesheets/common/layout.css");
+
+.form-section {
+  width: 80%;
+  height: 70%;
+  margin: auto;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.form-section div {
+  text-align: left;
+}
+
+.form-title {
+  padding-left: 20px;
+  border-left-color: #0000ff;
+  border-left-style: solid;
+  border-left-width: 8px;
+  border-bottom-color: #0000ff;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+
+.pure-form {
+  margin: auto;
+  width: 80%;
+}
+
+.pure-form label {
+  margin: 2em 0 0;
+  color: #34495e;
+  font-weight: bold;
+  font-size: 100%;
+}
+
+.pure-form input {
+  border: 2px solid #ddd;
+  box-shadow: none;
+  font-size: 100%;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.form-submit {
+  text-align: center;
+}
+
+.form-submit .pure-button {
+  margin: 2em 0 0;
+  background-color: #1f8dd6;
+  color: white;
+  padding: 1em 5em;
+  border-radius: 5px;
+}
