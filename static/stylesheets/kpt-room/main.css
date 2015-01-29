@@ -7,13 +7,12 @@
 
 .kpt-section {
   width: 90%;
-  height: 80%;
-  margin: auto;
   position: absolute;
-  top: 50px;
+  top: 100px;
   left: 0;
   bottom: 0;
   right: 0;
+  margin: auto;
   text-align: center;
 }
 
@@ -46,11 +45,12 @@
   height: 100%;
   margin: auto;
   text-align: center;
-  bottom: 0px;
+  padding-top: 10px;
 }
 
 .kpt-board {
-  height: 90%;
+  height: 100%;
+  bottom: 100px;
 }
 
 .kpt-board-keep {
@@ -73,7 +73,7 @@
   background: url('/static/images/kpt-room/paper-bg-try.jpg');
   background-size: 100% auto;
   width: 98%;
-  height: 102%;
+  height: 100%;
   margin: auto;
 }
 
@@ -106,5 +106,4 @@
 .clear {
   clear: both;
 }
-
 
