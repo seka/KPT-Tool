@@ -19,6 +19,7 @@
     "underscore": "~1.7.0",
     "coffeescript": "jashkenas/coffeescript#~1.8.0",
     "require-cs": "~0.5.0",
-    "cssreset-min": "http://yui.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css"
+    "cssreset-min": "http://yui.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css",
+    "masonry": "~3.2.2"
   }
 }

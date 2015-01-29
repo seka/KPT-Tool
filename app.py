@@ -71,7 +71,7 @@ def signin():
   if room_model.check_passwd(req["password"], salt, hashpw) != True:
     return render_template("signin-room.html", error=u"IDまたはパスワードが違います")
 
-  return render_template("test.html")
+  return render_template("kpt-room.html", room_id=req["room_id"])
 
 @app.route('/signout', methods=["POST"])
 def signout():
@@ -96,7 +96,8 @@ def signup():
 
 @app.route("/room/show/<room_id>", methods=["GET"])
 def show_room(room_id):
-  return render_template("test.html")
+  print "room_id"
+  return render_template("test.html", room_id=room_id)
 
 if __name__ == "__main__":
   app.run()

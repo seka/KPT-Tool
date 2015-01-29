@@ -1,0 +1,78 @@
+@charset "UTF-8";
+
+@import url("/static/bower_components/cssreset-min/index.css");
+@import url("/static/bower_components/pure/pure-min.css");
+@import url("/static/bower_components/pure/grids-responsive-min.css");
+@import url("/static/stylesheets/common/layout.css");
+
+.kpt-section {
+  width: 90%;
+  height: 80%;
+  margin: auto;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+}
+
+.kpt-section-title {
+  text-align: left;
+  margin: 0;
+  padding-left: 20px;
+  border-left-color: #0000ff;
+  border-left-style: solid;
+  border-left-width: 8px;
+  border-bottom-color: #0000ff;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  font-family: serif;
+  font-size: 200%;
+}
+
+.kpt-section-inner {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  text-align: center;
+  bottom: 0px;
+}
+
+.kpt-board {
+  height: 90%;
+}
+
+.kpt-board-keep {
+  background: url('/static/images/kpt-room/paper-bg-keep.jpg');
+  background-size: 100% auto;
+  width: 98%;
+  height: 50%;
+  margin: auto;
+}
+
+.kpt-board-problem {
+  background: url('/static/images/kpt-room/paper-bg-problem.jpg');
+  background-size: 100% auto;
+  width: 98%;
+  height: 50%;
+  margin: auto;
+}
+
+.kpt-board-try {
+  background: url('/static/images/kpt-room/paper-bg-try.jpg');
+  background-size: 100% auto;
+  width: 98%;
+  height: 102%;
+  margin: auto;
+}
+
+.kpt-board-supplement {
+  width: 200px;
+  padding-top: 20px;
+  margin: 8px 5px;
+  text-align: left;
+  border-bottom-color: #000;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
