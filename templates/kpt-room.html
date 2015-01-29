@@ -10,13 +10,13 @@
 
 {% block body %}
 <section class="kpt-section">
-  <div class="kpt-section-title">
-    <span style="display: inline-block;">ルーム：{{room_id}}</span>
-    <ul style="float: right; display: inline-block; margin: 0;">
-      <li style="display: inline-block;"><button class="button-success pure-button" style="padding: 0.1em 1em; background: rgb(66, 184, 221); color: white; border-radius: 4px; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);font-size: 60%;">投稿</button></li>
-      <li style="display: inline-block;"><button class="button-error pure-button" style="padding: 0.1em 1em; background: rgb(202, 60, 60); color: white; border-radius: 4px; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); font-size: 60%;">ルームを削除する</button></li>
+  <div class="kpt-section-top">
+    <span>ルーム：{{room_id}}</span>
+    <ul>
+      <li><button class="button-success pure-button">投稿</button></li>
+      <li><button class="button-error pure-button">ルームを削除する</button></li>
     </ul>
-    <div class="clear" style="clear: both;"></div>
+    <div class="clear"></div>
   </div>
   <div class="pricing-tables pure-g kpt-section-inner">
     <div class="pure-u-1 pure-u-md-1-2 kpt-board">

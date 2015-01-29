@@ -17,7 +17,7 @@
   text-align: center;
 }
 
-.kpt-section-title {
+.kpt-section-top {
   text-align: left;
   margin: 0;
   padding-left: 20px;
@@ -29,6 +29,16 @@
   border-bottom-width: 1px;
   font-family: serif;
   font-size: 200%;
+}
+
+.kpt-section-top ul {
+  float: right;
+  display: inline-block;
+  margin: 0;
+}
+
+.kpt-section-top ul li {
+  display: inline-block;
 }
 
 .kpt-section-inner {
@@ -76,3 +86,25 @@
   border-bottom-style: solid;
   border-bottom-width: 1px;
 }
+
+.pure-button {
+  padding: 0.1em 1em;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  font-size: 60%;
+}
+.button-success {
+  background: rgb(66, 184, 221);
+  color: white;
+}
+
+.button-error {
+  background: rgb(202, 60, 60);
+  color: white;
+}
+
+.clear {
+  clear: both;
+}
+
+
