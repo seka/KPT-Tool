@@ -1,4 +1,4 @@
-define ["jquery", "underscore", "masonry"], ($, _, Masonry) ->
+define ["jquery", "underscore", "masonry", "modal"], ($, _, Masonry) ->
   template = _.template """
     <div class="items">
       <p><%- message %></p>
@@ -28,15 +28,17 @@ define ["jquery", "underscore", "masonry"], ($, _, Masonry) ->
 
   sock = new WebSocket("ws://#{document.domain}:5000/websock/connect")
 
-  sock.onopen = () ->
-    sock.send("test data -------")
-
   sock.onmessage = (e) ->
-    data = JSON.parse(e.data);
+    data = JSON.parse e.data
     el = $ template {
       message: "#{data.message}"
     }
     # appendだと再配置がうまくいかない？
     $(keepContainer).prepend el
     keepMasonry.prepended( el )
+
+  sock.onopen = () ->
+    $(".kpt-click-events").click (e) =>
+      sock.send("test data -------")
+
 

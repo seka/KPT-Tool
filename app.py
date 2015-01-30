@@ -127,7 +127,7 @@ def connect_websock():
       break
 
     for s in sockets:
-      s.send(json.dumps({"message" : "test", "password" : "test2"}))
+      s.send(json.dumps({"message" : "test", "test2" : "test2"}))
 
   sockets.remove(sock)
   sock.close()

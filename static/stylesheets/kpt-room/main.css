@@ -3,6 +3,7 @@
 @import url("/static/bower_components/cssreset-min/index.css");
 @import url("/static/bower_components/pure/pure-min.css");
 @import url("/static/bower_components/pure/grids-responsive-min.css");
+@import url("/static/bower_components/css-modal/build/modal.css");
 @import url("/static/stylesheets/common/layout.css");
 
 .kpt-section {
