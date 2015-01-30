@@ -2,13 +2,18 @@
 # -*- coding: utf-8 -*-
 
 from flask import *
+import json
+
+# websock ------
 from gevent.pywsgi import WSGIServer
 from geventwebsocket.handler import WebSocketHandler
 
+# models -------
 from db.Base import Base
 from db.Users import Users
 from db.Rooms import Rooms
 
+# app configs -------
 domain = "127.0.0.1"
 port = 5000
 
@@ -122,7 +127,7 @@ def connect_websock():
       break
 
     for s in sockets:
-      s.send(message)
+      s.send(json.dumps({"message" : "test", "password" : "test2"}))
 
   sockets.remove(sock)
   sock.close()

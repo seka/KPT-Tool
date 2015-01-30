@@ -32,8 +32,9 @@ define ["jquery", "underscore", "masonry"], ($, _, Masonry) ->
     sock.send("test data -------")
 
   sock.onmessage = (e) ->
+    data = JSON.parse(e.data);
     el = $ template {
-      message: "#{e.data}"
+      message: "#{data.message}"
     }
     # appendだと再配置がうまくいかない？
     $(keepContainer).prepend el
