@@ -1,4 +1,16 @@
-define ["jquery", "masonry"], ($, Masonry) ->
+define ["jquery", "underscore", "masonry"], ($, _, Masonry) ->
+  template = _.template """
+    <div class="items">
+      <p><%- message %></p>
+      <ul>
+        <li><a href="#">そう思う！</a></li>
+        <li><a href="#">コメントする</a></li>
+        <li><a href="#">コメントを見る</a></li>
+      </ul>
+      <div class="clear"></div>
+    </div>
+  """
+
   keepContainer = document.querySelector "#kpt-keep"
   masonry = new Masonry keepContainer, {
         itemSelector: ".items"
@@ -18,9 +30,10 @@ define ["jquery", "masonry"], ($, Masonry) ->
   sock = new WebSocket("ws://#{document.domain}:5000/websock/connect")
 
   sock.onopen = () ->
-    console.log sock
     sock.send("test data -------")
 
   sock.onmessage = (e) ->
-    console.log "#{e.data}"
+    $("#kpt-keep").append template {
+      message: "#{e.data}"
+    }
 
