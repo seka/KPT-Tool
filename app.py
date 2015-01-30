@@ -2,12 +2,15 @@
 # -*- coding: utf-8 -*-
 
 from flask import *
-from geventwebsocket.handler import WebSocketHandler
 from gevent.pywsgi import WSGIServer
+from geventwebsocket.handler import WebSocketHandler
 
 from db.Base import Base
 from db.Users import Users
 from db.Rooms import Rooms
+
+domain = "127.0.0.1"
+port = 5000
 
 app = Flask(__name__)
 app.debug = True
@@ -95,28 +98,31 @@ def signup():
 
   room_model.save(req)
 
-  return redirect("/room/show/" + req["room_id"])
+  return redirect("/room/show" + req["room_id"])
 
 @app.route("/room/show/<room_id>", methods=["GET"])
 def show_room(room_id):
   print "room_id"
   return render_template("test.html", room_id=room_id)
 
-@app.route('/websock/connect', methods=["POST"])
+@app.route("/websock/connect")
 def connect_websock():
-  if not request.environ.get('wsgi.websocket'):
+  sock = request.environ['wsgi.websocket'];
+
+  if not sock:
     return
 
-  websock = request.environ['wsgi.websocket'];
   while True:
-    message = websock.receive();
+    message = sock.receive();
     if message is None:
-      break;
-    websock.send(message);
+      break
 
-    d = datetime.datetime.today();
-    websock.send(d.strftime("%Y-%m-%d %H:%M:%S"));
+    sock.send(message);
+
+  sock.close()
 
 if __name__ == "__main__":
-  server = WSGIServer(("0.0.0.0", 5000), app, handler_class=WebSocketHandler);
+  print "* Running on http://%s:%d" % (domain, port)
+  print "* Restarting with reloader"
+  server = WSGIServer((domain, port), app, handler_class=WebSocketHandler)
   server.serve_forever();

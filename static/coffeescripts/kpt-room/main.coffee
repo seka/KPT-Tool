@@ -15,3 +15,12 @@ define ["jquery", "masonry"], ($, Masonry) ->
         itemSelector: ".items"
       }
 
+  sock = new WebSocket("ws://#{document.domain}:5000/websock/connect")
+
+  sock.onopen = () ->
+    console.log sock
+    sock.send("test data -------")
+
+  sock.onmessage = (e) ->
+    console.log "#{e.data}"
+
