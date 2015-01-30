@@ -48,36 +48,39 @@
   padding-top: 10px;
 }
 
-.kpt-board {
+.kpt-contents {
   height: 100%;
   bottom: 100px;
 }
 
-.kpt-board-keep {
+.kpt-contents-keep {
   background: url('/static/images/kpt-room/paper-bg-keep.jpg');
   background-size: 100% auto;
   width: 98%;
   height: 50%;
   margin: auto;
+  overflow-y: scroll;
 }
 
-.kpt-board-problem {
+.kpt-contents-problem {
   background: url('/static/images/kpt-room/paper-bg-problem.jpg');
   background-size: 100% auto;
   width: 98%;
   height: 50%;
   margin: auto;
+  overflow-y: scroll;
 }
 
-.kpt-board-try {
+.kpt-contents-try {
   background: url('/static/images/kpt-room/paper-bg-try.jpg');
   background-size: 100% auto;
   width: 98%;
   height: 100%;
   margin: auto;
+  overflow-y: scroll;
 }
 
-.kpt-board-supplement {
+.kpt-contents-supplement {
   width: 200px;
   padding-top: 20px;
   margin: 8px 5px;
@@ -106,4 +109,38 @@
 .clear {
   clear: both;
 }
+
+.kpt-boards {
+  width: 100%;
+  height: 100%;
+  text-align: left;
+}
+
+.kpt-boards .items {
+  background: url("/static/images/kpt-room/frame-w.png") no-repeat;
+  background-size: 100% auto;
+  width: 235px;
+  height: 138px;
+  padding: 40px 10px 5px 10px;
+}
+
+.kpt-boards .items p {
+  margin: 0;
+  width: 100%;
+  word-wrap: break-word;
+}
+
+.kpt-boards .items ul {
+  float: left;
+  display: inline-block;
+  margin: 12px 0;
+  padding: 0 4px;
+  font-size: 10px;
+}
+
+.kpt-boards ul li {
+  display: inline-block;
+  text-decoration : none;
+}
+
 
