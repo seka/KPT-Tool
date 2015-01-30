@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 
 from flask import *
+from geventwebsocket.handler import WebSocketHandler
+from gevent.pywsgi import WSGIServer
+
 from db.Base import Base
 from db.Users import Users
 from db.Rooms import Rooms
@@ -99,5 +102,10 @@ def show_room(room_id):
   print "room_id"
   return render_template("test.html", room_id=room_id)
 
+@app.route('/websock/connect', methods=["POST"])
+def connect_websock():
+  pass
+
 if __name__ == "__main__":
-  app.run()
+  server = WSGIServer(("0.0.0.0", 5000), app, handler_class=WebSocketHandler);
+  server.serve_forever();
