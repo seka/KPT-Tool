@@ -13,9 +13,7 @@
       , "underscore": {
         exports: "_"
       }
-      , "masonry": {
-        deps: ["jquery"]
-      }
+      , "masonry": ["jquery"]
     }
   });
 

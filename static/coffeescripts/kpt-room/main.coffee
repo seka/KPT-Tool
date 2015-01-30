@@ -12,18 +12,17 @@ define ["jquery", "underscore", "masonry"], ($, _, Masonry) ->
   """
 
   keepContainer = document.querySelector "#kpt-keep"
-  masonry = new Masonry keepContainer, {
+  keepMasonry = new Masonry keepContainer, {
         itemSelector: ".items"
       }
 
   problemContainer = document.querySelector "#kpt-problem"
-  masonry = new Masonry problemContainer, {
+  problemMasonry = new Masonry problemContainer, {
         itemSelector: ".items"
       }
 
   tryContainer = document.querySelector "#kpt-try"
-  console.log tryContainer
-  masonry = new Masonry tryContainer, {
+  tryMasonry = new Masonry tryContainer, {
         itemSelector: ".items"
       }
 
@@ -33,7 +32,10 @@ define ["jquery", "underscore", "masonry"], ($, _, Masonry) ->
     sock.send("test data -------")
 
   sock.onmessage = (e) ->
-    $("#kpt-keep").append template {
+    el = $ template {
       message: "#{e.data}"
     }
+    # appendだと再配置がうまくいかない？
+    $(keepContainer).prepend el
+    keepMasonry.prepended( el )
 

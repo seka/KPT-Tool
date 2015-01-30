@@ -34,6 +34,8 @@ test_room = {
 rooms = Rooms()
 rooms.create()
 rooms.save(test_room)
+
+sockets = set()
 # end ---------------------
 
 @app.before_request
@@ -112,13 +114,17 @@ def connect_websock():
   if not sock:
     return
 
+  sockets.add(sock)
+
   while True:
     message = sock.receive();
     if message is None:
       break
 
-    sock.send(message);
+    for s in sockets:
+      s.send(message)
 
+  sockets.remove(sock)
   sock.close()
 
 if __name__ == "__main__":
