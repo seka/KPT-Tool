@@ -3,7 +3,7 @@
     baseUrl: "/static/coffeescripts/create-room",
     paths: {
       "jquery": "/static/bower_components/jquery/dist/jquery.min"
-      , "underscore": "/static/bower_components/undersore-min"
+      , "underscore": "/static/bower_components/underscore-min"
     },
     shim: {
       "jquery": {
