@@ -104,7 +104,18 @@ def show_room(room_id):
 
 @app.route('/websock/connect', methods=["POST"])
 def connect_websock():
-  pass
+  if not request.environ.get('wsgi.websocket'):
+    return
+
+  websock = request.environ['wsgi.websocket'];
+  while True:
+    message = websock.receive();
+    if message is None:
+      break;
+    websock.send(message);
+
+    d = datetime.datetime.today();
+    websock.send(d.strftime("%Y-%m-%d %H:%M:%S"));
 
 if __name__ == "__main__":
   server = WSGIServer(("0.0.0.0", 5000), app, handler_class=WebSocketHandler);
