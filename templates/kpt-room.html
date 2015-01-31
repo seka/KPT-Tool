@@ -18,34 +18,28 @@
     </ul>
     <div class="clear"></div>
   </div>
-
   <div class="pricing-tables pure-g kpt-section-inner">
     <div class="pure-u-1 pure-u-md-1-2 kpt-contents">
       <div class="kpt-contents-keep">
         <p class="kpt-contents-supplement">Keep（キープ）</p>
-        <div id="kpt-keep" class="kpt-boards">
-        </div>
+        <div id="kpt-keep" class="kpt-boards"></div>
       </div>
-
       <div class="kpt-contents-problem">
         <p class="kpt-contents-supplement">Problem（プロブレム）</p>
-        <div id="kpt-problem" class="kpt-boards">
-        </div>
+        <div id="kpt-problem" class="kpt-boards"></div>
       </div>
     </div>
-
     <div class="pure-u-1 pure-u-md-1-2 kpt-contents">
       <div class="kpt-contents-try">
         <p class="kpt-contents-supplement">Try（トライ）</p>
-        <div id="kpt-try" class="kpt-boards">
-        </div>
+        <div id="kpt-try" class="kpt-boards"></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- modal -->
-<section class="modal--fade" id="kpt-modal" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+<section class="modal modal--fade" id="kpt-modal" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
   <form onsubmit="return false;">
     <div class="modal-inner">
       <header id="modal-label">
@@ -53,13 +47,13 @@
       </header>
       <div class="modal-content">
         <input type="hidden" id="room-id" value="{{ room_id }}" />
-        <textarea id="kpt-message" rows="10" maxlength="160" placeholder="KPTを記入してください" autofocus required style="width: 100%; resize: none;"></textarea>
+        <textarea id="kpt-message" maxlength="160" placeholder="KPTを記入してください" autofocus required></textarea>
       </div>
       <footer>
-        <p style="text-align: center; margin: 1em 0 0 0;">
-          <button type="submit" class="kpt-click-trigger pure-button" value="keep" style="background: #D0C220; margin: 0 5px; padding: 2px 28px; font-size: 160%;">keep</button>
-          <button type="submit" class="kpt-click-trigger pure-button" value="problem" style="background: #75BBC7; margin: 0 5px; padding: 2px 28px; font-size: 160%;">problem</button>
-          <button type="submit" class="kpt-click-trigger pure-button" value="try" style="background: #E2A9AF; margin: 0 5px; padding: 2px 28px; font-size: 160%;">try</button>
+        <p>
+          <button type="submit" class="kpt-click-trigger pure-button button-keep" value="keep">keep</button>
+          <button type="submit" class="kpt-click-trigger pure-button button-problem" value="problem">problem</button>
+          <button type="submit" class="kpt-click-trigger pure-button button-try" value="try">try</button>
         </p>
       </footer>
     </div>

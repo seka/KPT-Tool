@@ -29,14 +29,21 @@ define ["jquery", "underscore", "masonry", "modal"], ($, _, Masonry) ->
   sock = new WebSocket("ws://#{document.domain}:5000/websock/connect")
 
   sock.onmessage = (e) ->
-    console.log e
     data = JSON.parse e.data
-    el = $ template {
+    el = $ template
       message: "#{data.message}"
-    }
+
     # appendだと再配置がうまくいかない？
-    $(keepContainer).prepend el
-    keepMasonry.prepended el
+    switch data.type
+      when "keep"
+        $(keepContainer).prepend el
+        keepMasonry.prepended el
+      when "problem"
+        $(problemContainer).prepend el
+        problemMasonry.prepended el
+      when "try"
+        $(tryContainer).prepend el
+        tryMasonry.prepended el
 
   sock.onopen = () ->
     $(".kpt-click-trigger").click (e) ->
