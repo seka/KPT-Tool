@@ -26,7 +26,9 @@ define ["jquery", "underscore", "masonry", "modal"], ($, _, Masonry) ->
         itemSelector: ".items"
       }
 
-  sock = new WebSocket("ws://#{document.domain}:5000/websock/connect")
+
+  roomId = $("#room-id").val()
+  sock = new WebSocket("ws://#{document.domain}:5000/websock/connect/#{roomId}")
 
   sock.onmessage = (e) ->
     data = JSON.parse e.data

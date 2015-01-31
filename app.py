@@ -7,7 +7,7 @@ import json
 # websock ------
 from gevent.pywsgi import WSGIServer
 from geventwebsocket.handler import WebSocketHandler
-sockets = set()
+sockets = dict()
 
 # models -------
 from db.Base import Base
@@ -138,13 +138,16 @@ def show_room(room_id):
   items = entries.findAll(u"room_id='%s' ORDER BY room_id DESC" % room_id)
   return render_template("kpt-room.html", room_id=room_id, items=items)
 
-@app.route("/websock/connect")
-def connect_websock():
+@app.route("/websock/connect/<room_id>")
+def connect_websock(room_id):
   sock = request.environ['wsgi.websocket'];
   entries = Entry()
 
   if not sock: return
-  sockets.add(sock)
+  sockets[room_id].append(sock)
+
+  if not sockets.has_key(room_id):
+    sockets[room_id] = list()
 
   while True:
     obj = sock.receive();
@@ -161,10 +164,10 @@ def connect_websock():
     }
     entries.save(entry)
 
-    for s in sockets:
+    for s in sockets[room_id]:
       s.send(obj)
 
-  sockets.remove(sock)
+  sockets[room_id].remove(sock)
   sock.close()
 
 if __name__ == "__main__":
