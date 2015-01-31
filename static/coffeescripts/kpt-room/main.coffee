@@ -1,7 +1,7 @@
 define ["jquery", "underscore", "masonry", "modal"], ($, _, Masonry) ->
   template = _.template """
     <div class="items">
-      <p><%- message %></p>
+      <p><%- entry %></p>
       <ul>
         <li><a href="#">そう思う！</a></li>
         <li><a href="#">コメントする</a></li>
@@ -31,7 +31,7 @@ define ["jquery", "underscore", "masonry", "modal"], ($, _, Masonry) ->
   sock.onmessage = (e) ->
     data = JSON.parse e.data
     el = $ template
-      message: "#{data.message}"
+      entry: "#{data.entry}"
 
     # appendだと再配置がうまくいかない？
     switch data.type
@@ -55,7 +55,7 @@ define ["jquery", "underscore", "masonry", "modal"], ($, _, Masonry) ->
 
       obj = JSON.stringify
         room_id: roomId
-        message: msg
+        entry: msg
         type: type
 
       sock.send obj

@@ -9,6 +9,7 @@ class Entry(Base):
     id INTEGER PRIMARY KEY AUTOINCREMENT
     , room_id TEXT NOT NULL
     , entry TEXT NOT NULL
+    , type TEXT NOT NULL
     , good INTEGER DEFAULT 0
   """
   scheme = None

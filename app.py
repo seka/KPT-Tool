@@ -51,6 +51,7 @@ rooms.save(test_room2)
 test_entry = {
   "room_id" : "seka"
   , "entry" : u"この内容はテストです"
+  , "type"  : "keep"
   , "good"  : 4
 }
 entries = Entry()
@@ -128,6 +129,7 @@ def show_room(room_id):
 @app.route("/websock/connect")
 def connect_websock():
   sock = request.environ['wsgi.websocket'];
+  entries = Entry()
 
   if not sock: return
   sockets.add(sock)
@@ -138,6 +140,14 @@ def connect_websock():
 
     req = json.loads(obj)
     print req
+
+    entry = {
+      "room_id" : req["room_id"]
+      , "entry" : req["entry"]
+      , "type"  : req["type"]
+      , "good"  : 0
+    }
+    entries.save(entry)
 
     for s in sockets:
       s.send(obj)
