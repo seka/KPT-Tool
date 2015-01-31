@@ -54,9 +54,20 @@ test_entry = {
   , "type"  : "keep"
   , "good"  : 4
 }
+test_entry2 = {
+  "room_id" : "seka"
+  , "entry" : u"この内容はテストです"
+  , "type"  : "try"
+  , "good"  : 5
+}
+
 entries = Entry()
 entries.create()
 entries.save(test_entry)
+entries.save(test_entry)
+entries.save(test_entry)
+entries.save(test_entry2)
+entries.save(test_entry2)
 # end ---------------------
 
 @app.before_request
@@ -100,7 +111,7 @@ def signin():
   if room_model.check_passwd(req["password"], salt, hashpw) != True:
     return render_template("signin-room.html", error=u"IDまたはパスワードが違います")
 
-  return render_template("kpt-room.html", room_id=req["room_id"])
+  return redirect("/room/show/" + req["room_id"])
 
 @app.route('/signout', methods=["POST"])
 def signout():
@@ -119,12 +130,13 @@ def signup():
   if room: return render_template("create-room.html", error=u"同名のルームが存在します")
 
   room_model.save(req)
-  return redirect("/room/show" + req["room_id"])
+  return redirect("/room/show/" + req["room_id"])
 
 @app.route("/room/show/<room_id>", methods=["GET"])
 def show_room(room_id):
-  print "room_id"
-  return render_template("test.html", room_id=room_id)
+  entries = Entry()
+  items = entries.findAll(u"room_id='%s' ORDER BY room_id DESC" % room_id)
+  return render_template("kpt-room.html", room_id=room_id, items=items)
 
 @app.route("/websock/connect")
 def connect_websock():

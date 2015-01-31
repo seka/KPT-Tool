@@ -26,7 +26,7 @@ class Entry(Base):
     sql = u"CREATE TABLE %s (%s);" % (self.table_name, self.model)
     self.cursor.execute(sql)
 
-  def find(self, conditional=""):
+  def _find(self, conditional=""):
     sql = ""
 
     if conditional:
@@ -34,7 +34,13 @@ class Entry(Base):
     else:
       sql = u"SELECT * FROM %s;" % (self.table_name)
 
-    return self.cursor.execute(sql).fetchone()
+    return self.cursor.execute(sql)
+
+  def findOne(self, conditional=""):
+    return self._find(conditional).fetchone()
+
+  def findAll(self, conditional=""):
+    return self._find(conditional).fetchall()
 
   def save(self, items={}):
     keys = []
