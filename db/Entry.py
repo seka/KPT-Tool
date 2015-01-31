@@ -41,7 +41,7 @@ class Entry(Base):
 
     for k, v in items.iteritems():
       keys.append("'" + k + "'")
-      values.append("'" + v + "'")
+      values.append("'" + unicode(v) + "'")
 
     keys = ",".join(keys)
     values = ",".join(values)

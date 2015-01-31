@@ -7,11 +7,13 @@ import json
 # websock ------
 from gevent.pywsgi import WSGIServer
 from geventwebsocket.handler import WebSocketHandler
+sockets = set()
 
 # models -------
 from db.Base import Base
 from db.Users import Users
 from db.Rooms import Rooms
+from db.Entry import Entry
 
 # app configs -------
 domain = "127.0.0.1"
@@ -36,11 +38,24 @@ test_room = {
   "room_id" : "seka"
   , "password" : "29148931"
 }
+test_room2 = {
+  "room_id" : "test"
+  , "password" : "29148931"
+}
+
 rooms = Rooms()
 rooms.create()
 rooms.save(test_room)
+rooms.save(test_room2)
 
-sockets = set()
+test_entry = {
+  "room_id" : "seka"
+  , "entry" : u"この内容はテストです"
+  , "good"  : 4
+}
+entries = Entry()
+entries.create()
+entries.save(test_entry)
 # end ---------------------
 
 @app.before_request
