@@ -100,11 +100,9 @@ def signup():
   room_model = Rooms()
   room = room_model.find("room_id='%s'" % req["room_id"])
 
-  if room:
-    return render_template("create-room.html", error=u"同名のルームが存在します")
+  if room: return render_template("create-room.html", error=u"同名のルームが存在します")
 
   room_model.save(req)
-
   return redirect("/room/show" + req["room_id"])
 
 @app.route("/room/show/<room_id>", methods=["GET"])
@@ -116,18 +114,18 @@ def show_room(room_id):
 def connect_websock():
   sock = request.environ['wsgi.websocket'];
 
-  if not sock:
-    return
-
+  if not sock: return
   sockets.add(sock)
 
   while True:
-    message = sock.receive();
-    if message is None:
-      break
+    obj = sock.receive();
+    if obj is None: break
+
+    req = json.loads(obj)
+    print req
 
     for s in sockets:
-      s.send(json.dumps({"message" : "test", "test2" : "test2"}))
+      s.send(obj)
 
   sockets.remove(sock)
   sock.close()

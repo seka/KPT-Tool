@@ -45,23 +45,25 @@
 </section>
 
 <!-- modal -->
-<input type="hidden" id="room-id" value="{{ room_id }}" />
 <section class="modal--fade" id="kpt-modal" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
-  <div class="modal-inner">
-    <header id="modal-label">
-      <h2>振り返りを投稿する</h2>
-    </header>
-    <div class="modal-content">
-      <textarea name="message" rows="15" maxlength="160" placeholder="KPTを記入してください" autofocus required style="width: 100%; resize: none;"></textarea>
+  <form onsubmit="return false;">
+    <div class="modal-inner">
+      <header id="modal-label">
+        <h2>振り返りを投稿する</h2>
+      </header>
+      <div class="modal-content">
+        <input type="hidden" id="room-id" value="{{ room_id }}" />
+        <textarea id="kpt-message" rows="10" maxlength="160" placeholder="KPTを記入してください" autofocus required style="width: 100%; resize: none;"></textarea>
+      </div>
+      <footer>
+        <p style="text-align: center; margin: 1em 0 0 0;">
+          <button type="submit" class="kpt-click-trigger pure-button" value="keep" style="background: #D0C220; margin: 0 5px; padding: 2px 28px; font-size: 160%;">keep</button>
+          <button type="submit" class="kpt-click-trigger pure-button" value="problem" style="background: #75BBC7; margin: 0 5px; padding: 2px 28px; font-size: 160%;">problem</button>
+          <button type="submit" class="kpt-click-trigger pure-button" value="try" style="background: #E2A9AF; margin: 0 5px; padding: 2px 28px; font-size: 160%;">try</button>
+        </p>
+      </footer>
     </div>
-    <footer>
-      <p style="text-align: center; margin: 1em 0 0 0;">
-        <button class="kpt-click-events pure-button" id="keep-contribute" style="background: #D0C220; margin: 0 5px; padding: 2px 28px; font-size: 160%;">keep</button>
-        <button class="kpt-click-events pure-button" id="problem-contribute" style="background: #75BBC7; margin: 0 5px; padding: 2px 28px; font-size: 160%;">problem</button>
-        <button class="kpt-click-events pure-button" id="try-contribute" style="background: #E2A9AF; margin: 0 5px; padding: 2px 28px; font-size: 160%;">try</button
-      </p>
-    </footer>
-  </div>
-  <a href="#!" class="modal-close" title="Close this modal" data-close="Close" data-dismiss="modal">?</a>
+    <a href="#!" class="modal-close" title="Close this modal" data-close="Close" data-dismiss="modal">?</a>
+  </form>
 </section>
 {% endblock %}
