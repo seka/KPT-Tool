@@ -8,16 +8,34 @@
   <script src="{{ url_for('static', filename='coffeescripts/kpt-room/config.js') }}"></script>
 {% endblock %}
 
-{% macro TEMPLATE_ITEM(obj) -%}
-  <div id="kptid-{{ obj.id }}" class="items">
-    <p>{{ obj.entry }}</p>
+{% macro TEMPLATE_GOOD(kpt) -%}
+{% for g in goods %}
+  {% if g.id == kpt.id %}
+    <button class="good-click-trigger" value="{{ kpt.id }}">そう思う！({{ kpt.good }})</button>
+  {% else %}
+    <button class="good-click-trigger" value="{{ kpt.id }}">取り消す({{ kpt.good }})</button>
+  {% endif %}
+{% endfor %}
+{%- endmacro %}
+
+{% macro TEMPLATE_ITEM(kpt) -%}
+{% for e in items %}
+  <div id="kptid-{{ kpt.id }}" class="items">
+    <p>{{ kpt.entry }}</p>
     <ul>
-      <li><button class="good-click-trigger state-clicked" value="{{ obj.id }}" >そう思う！({{ obj.good }})</button></li>
+      <li>
+        {% if kpt.good != 0 and goods|length > 0 %}
+          {{ TEMPLATE_GOOD(kpt) }}
+        {% else %}
+          <button class="good-click-trigger state-clicked" value="{{ kpt.id }}">そう思う！({{ kpt.good }})</button>
+        {% endif %}
+      </li>
       <li><a href="#">コメントする</a></li>
       <li><a href="#">コメントを見る</a></li>
     </ul>
     <div class="clear"></div>
   </div>
+{% endfor %}
 {%- endmacro %}
 
 {% block body %}
@@ -36,7 +54,9 @@
         <p class="kpt-contents-supplement">Keep（キープ）</p>
         <div id="kpt-keep" class="kpt-boards">
           {% for e in items %}
-            {% if e["type"] == "keep": %}{{ TEMPLATE_ITEM(e) }}{% endif %}
+            {% if e["type"] == "keep": %}
+              {{ TEMPLATE_ITEM(e) }}
+            {% endif %}
           {% endfor %}
         </div>
       </div>
@@ -44,7 +64,9 @@
         <p class="kpt-contents-supplement">Problem（プロブレム）</p>
         <div id="kpt-problem" class="kpt-boards">
           {% for e in items %}
-            {% if e["type"] == "problem": %}{{ TEMPLATE_ITEM(e) }}{% endif %}
+            {% if e["type"] == "problem": %}
+              {{ TEMPLATE_ITEM(e) }}
+            {% endif %}
           {% endfor %}
         </div>
       </div>
@@ -54,7 +76,9 @@
         <p class="kpt-contents-supplement">Try（トライ）</p>
         <div id="kpt-try" class="kpt-boards">
           {% for e in items %}
-            {% if e["type"] == "try": %}{{ TEMPLATE_ITEM(e) }}{% endif %}
+            {% if e["type"] == "try": %}
+              {{ TEMPLATE_ITEM(e) }}
+            {% endif %}
           {% endfor %}
         </div>
       </div>

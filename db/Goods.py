@@ -7,7 +7,7 @@ class Goods(Base):
   table_name = "Goods"
   model = """
     id INTEGER PRIMARY KEY AUTOINCREMENT
-    , user_id INTEGER NOT NULL
+    , user_id TEXT NOT NULL
     , kpt_id INTEGER NOT NULL
   """
   scheme = None
@@ -52,6 +52,7 @@ class Goods(Base):
     values = ",".join(values)
 
     sql = u"INSERT INTO %s (%s) VALUES (%s);" % (self.table_name, keys, values)
+
     self.cursor.execute(sql)
     self.connection.commit()
 
@@ -63,3 +64,13 @@ class Goods(Base):
     self.cursor.execute(sql)
     self.connection.commit()
 
+  def update(self, colum, value, conditional):
+    sql = ""
+
+    if conditional:
+      sql = u"UPDATE %s SET %s='%s' WHERE %s;" % (self.table_name, colum, value, conditional)
+    else:
+      sql = u"UPDATE %s SET %s='%s';" % (self.table_name, colum, value)
+
+    self.cursor.execute(sql)
+    self.connection.commit()

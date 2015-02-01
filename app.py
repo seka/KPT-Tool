@@ -145,8 +145,8 @@ def show_room(room_id):
   entries = Entry()
   items = entries.findAll(u"room_id='%s' ORDER BY room_id DESC" % room_id)
 
-  res = make_response(
-      render_template("kpt-room.html", room_id=room_id, items=items))
+  goods = Goods()
+  good = list()
 
   cookie = request.cookies.get("user_id")
   if cookie is None:
@@ -155,7 +155,10 @@ def show_room(room_id):
     session["user_id"] = uid
   else:
     session["user_id"] = cookie
+    good = goods.findAll("user_id='%s'" % session["user_id"])
 
+  res = make_response(render_template("kpt-room.html"
+    , room_id=room_id, items=items, goods=good))
   return res
 
 @app.route("/websock/connect/room/<room_id>")
@@ -191,6 +194,7 @@ def connect_websock(room_id):
 @app.route("/websock/connect/good")
 def connect_websock_good():
   sock = request.environ['wsgi.websocket'];
+  goods = Goods()
 
   if not sock: return
   good_sockets.append(sock)
@@ -200,7 +204,17 @@ def connect_websock_good():
     if obj is None: break
 
     req = json.loads(obj)
-    print req
+    uid = session["user_id"]
+    kpt_id = req["kpt_id"]
+
+    if req["type"] == "add":
+      good = {
+        "user_id" : uid
+        , "kpt_id" : kpt_id
+      }
+      goods.save(good)
+    else:
+      goods.delete("user_id='%s' and kpt_id='%s'" % (uid, kpt_id))
 
     for s in good_sockets:
       s.send(obj)

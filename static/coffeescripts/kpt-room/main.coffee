@@ -77,10 +77,10 @@ define ["jquery", "underscore", "masonry", "modal"], ($, _, Masonry) ->
   goodSock.onopen = () ->
     $(".good-click-trigger").click (e) ->
       kptId = $(@).val()
-      str = $(@).text()
       text = $(@).text()
+      obj = {}
 
-      if str.match("そう思う！")
+      if text.match("そう思う！")
         obj = JSON.stringify
           kpt_id: kptId
           type: "add"
@@ -94,17 +94,15 @@ define ["jquery", "underscore", "masonry", "modal"], ($, _, Masonry) ->
       $(@).text text
       goodSock.send obj
 
-
   goodSock.onmessage = (e) ->
     data = JSON.parse e.data
     kptId = data.kpt_id
-    el = $("#kptid-#{kptId} .good-click-trigger")
+    el = $("#kptid-#{kptId}").find(".good-click-trigger")
     text = el.text()
 
     if data.type is "sub"
-      count = parseInt(text.match(/\d+/).join("")) - 1
+      count = parseInt(text.match(/\d+/)) - 1
     else
-      count = parseInt(text.match(/\d+/).join("")) + 1
+      count = parseInt(text.match(/\d+/)) + 1
 
     el.text text.replace /\d+/, "#{count}"
-
