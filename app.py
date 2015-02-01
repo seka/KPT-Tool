@@ -133,7 +133,6 @@ def signup():
 
   room_model = Rooms()
   room = room_model.find("room_id='%s'" % req["room_id"])
-
   if room: return render_template("create-room.html", error=u"同名のルームが存在します")
 
   room_model.save(req)
@@ -155,11 +154,9 @@ def show_room(room_id):
     session["user_id"] = uid
   else:
     session["user_id"] = cookie
-    good = goods.findAll("user_id='%s'" % session["user_id"])
+    good = goods.findAll("user_id='%s'" % cookie)
 
-  res = make_response(render_template("kpt-room.html"
-    , room_id=room_id, items=items, goods=good))
-  return res
+  return render_template("kpt-room.html", room_id=room_id, items=items, goods=good)
 
 @app.route("/websock/connect/room/<room_id>")
 def connect_websock(room_id):
@@ -195,6 +192,7 @@ def connect_websock(room_id):
 def connect_websock_good():
   sock = request.environ['wsgi.websocket'];
   goods = Goods()
+  entries = Entry()
 
   if not sock: return
   good_sockets.append(sock)
@@ -206,15 +204,18 @@ def connect_websock_good():
     req = json.loads(obj)
     uid = session["user_id"]
     kpt_id = req["kpt_id"]
+    good_cnt = req["count"]
 
     if req["type"] == "add":
       good = {
         "user_id" : uid
         , "kpt_id" : kpt_id
       }
-      goods.save(good)
+      if goods.save(good) is None:
+        entries.update("good", good_cnt + 1, "id='%s'" % kpt_id)
     else:
       goods.delete("user_id='%s' and kpt_id='%s'" % (uid, kpt_id))
+      entries.update("good", good_cnt - 1, "id='%s'" % kpt_id)
 
     for s in good_sockets:
       s.send(obj)
@@ -225,5 +226,7 @@ def connect_websock_good():
 if __name__ == "__main__":
   print "* Running on http://%s:%d" % (domain, port)
   print "* Restarting with reloader"
+  app.jinja_env.add_extension('jinja2.ext.loopcontrols')
+
   server = WSGIServer((domain, port), app, handler_class=WebSocketHandler)
   server.serve_forever();

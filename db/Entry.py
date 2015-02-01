@@ -68,6 +68,9 @@ class Entry(Base):
   def update(self, colum, value, conditional):
     sql = ""
 
+    if not colum or not value:
+      return
+
     if conditional:
       sql = u"UPDATE %s SET %s='%s' WHERE %s;" % (self.table_name, colum, value, conditional)
     else:

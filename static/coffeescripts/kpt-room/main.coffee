@@ -78,17 +78,20 @@ define ["jquery", "underscore", "masonry", "modal"], ($, _, Masonry) ->
     $(".good-click-trigger").click (e) ->
       kptId = $(@).val()
       text = $(@).text()
+      count = parseInt(text.match(/\d+/))
       obj = {}
 
       if text.match("そう思う！")
         obj = JSON.stringify
           kpt_id: kptId
           type: "add"
+          count: count
         text = text.replace "そう思う！", "取り消す"
       else
         obj = JSON.stringify
           kpt_id: kptId
           type: "sub"
+          count: count
         text = text.replace "取り消す", "そう思う！"
 
       $(@).text text
@@ -100,9 +103,11 @@ define ["jquery", "underscore", "masonry", "modal"], ($, _, Masonry) ->
     el = $("#kptid-#{kptId}").find(".good-click-trigger")
     text = el.text()
 
+    console.log e
+
     if data.type is "sub"
-      count = parseInt(text.match(/\d+/)) - 1
+      count = data.count - 1
     else
-      count = parseInt(text.match(/\d+/)) + 1
+      count = data.count + 1
 
     el.text text.replace /\d+/, "#{count}"

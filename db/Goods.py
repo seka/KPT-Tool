@@ -9,6 +9,7 @@ class Goods(Base):
     id INTEGER PRIMARY KEY AUTOINCREMENT
     , user_id TEXT NOT NULL
     , kpt_id INTEGER NOT NULL
+    , unique(user_id, kpt_id)
   """
   scheme = None
 
