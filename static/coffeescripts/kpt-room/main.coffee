@@ -26,9 +26,8 @@ define ["jquery", "underscore", "masonry", "modal"], ($, _, Masonry) ->
         itemSelector: ".items"
       }
 
-
   roomId = $("#room-id").val()
-  sock = new WebSocket("ws://#{document.domain}:5000/websock/connect/#{roomId}")
+  sock = new WebSocket("ws://#{document.domain}:5000/websock/connect/room/#{roomId}")
 
   sock.onmessage = (e) ->
     data = JSON.parse e.data
@@ -59,6 +58,53 @@ define ["jquery", "underscore", "masonry", "modal"], ($, _, Masonry) ->
         room_id: roomId
         entry: msg
         type: type
-
       sock.send obj
+
+    $(".kpt-click-trigger").click (e) ->
+      roomId = $("#room-id").val()
+      msg = $("#kpt-message").val()
+      type = $(@).val()
+
+      return true if not msg
+
+      obj = JSON.stringify
+        room_id: roomId
+        entry: msg
+        type: type
+      sock.send obj
+
+  goodSock = new WebSocket("ws://#{document.domain}:5000/websock/connect/good")
+  goodSock.onopen = () ->
+    $(".good-click-trigger").click (e) ->
+      kptId = $(@).val()
+      str = $(@).text()
+      text = $(@).text()
+
+      if str.match("そう思う！")
+        obj = JSON.stringify
+          kpt_id: kptId
+          type: "add"
+        text = text.replace "そう思う！", "取り消す"
+      else
+        obj = JSON.stringify
+          kpt_id: kptId
+          type: "sub"
+        text = text.replace "取り消す", "そう思う！"
+
+      $(@).text text
+      goodSock.send obj
+
+
+  goodSock.onmessage = (e) ->
+    data = JSON.parse e.data
+    kptId = data.kpt_id
+    el = $("#kptid-#{kptId} .good-click-trigger")
+    text = el.text()
+
+    if data.type is "sub"
+      count = parseInt(text.match(/\d+/).join("")) - 1
+    else
+      count = parseInt(text.match(/\d+/).join("")) + 1
+
+    el.text text.replace /\d+/, "#{count}"
 

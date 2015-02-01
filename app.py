@@ -3,11 +3,15 @@
 
 from flask import *
 import json
+import uuid
 
 # websock ------
 from gevent.pywsgi import WSGIServer
 from geventwebsocket.handler import WebSocketHandler
+from flask_sockets import Sockets
+
 sockets = dict()
+good_sockets = list()
 
 # models -------
 from db.Base import Base
@@ -110,7 +114,6 @@ def signin():
 
   if room_model.check_passwd(req["password"], salt, hashpw) != True:
     return render_template("signin-room.html", error=u"IDまたはパスワードが違います")
-
   return redirect("/room/show/" + req["room_id"])
 
 @app.route('/signout', methods=["POST"])
@@ -132,29 +135,40 @@ def signup():
   room_model.save(req)
   return redirect("/room/show/" + req["room_id"])
 
+app.secret_key = "secret_test"
 @app.route("/room/show/<room_id>", methods=["GET"])
 def show_room(room_id):
   entries = Entry()
   items = entries.findAll(u"room_id='%s' ORDER BY room_id DESC" % room_id)
-  return render_template("kpt-room.html", room_id=room_id, items=items)
 
-@app.route("/websock/connect/<room_id>")
+  res = make_response(
+      render_template("kpt-room.html", room_id=room_id, items=items))
+
+  cookie = request.cookies.get("user_id")
+  if cookie is None:
+    uid = uuid.uuid4()
+    res.set_cookie("user_id", str(uid))
+    session["user_id"] = uid
+  else:
+    session["user_id"] = cookie
+
+  return res
+
+@app.route("/websock/connect/room/<room_id>")
 def connect_websock(room_id):
   sock = request.environ['wsgi.websocket'];
   entries = Entry()
 
   if not sock: return
-  sockets[room_id].append(sock)
 
-  if not sockets.has_key(room_id):
-    sockets[room_id] = list()
+  if not sockets.has_key(room_id): sockets[room_id] = list()
+  sockets[room_id].append(sock)
 
   while True:
     obj = sock.receive();
     if obj is None: break
 
     req = json.loads(obj)
-    print req
 
     entry = {
       "room_id" : req["room_id"]
@@ -168,6 +182,26 @@ def connect_websock(room_id):
       s.send(obj)
 
   sockets[room_id].remove(sock)
+  sock.close()
+
+@app.route("/websock/connect/good")
+def connect_websock_good():
+  sock = request.environ['wsgi.websocket'];
+
+  if not sock: return
+  good_sockets.append(sock)
+
+  while True:
+    obj = sock.receive();
+    if obj is None: break
+
+    req = json.loads(obj)
+    print req
+
+    for s in good_sockets:
+      s.send(obj)
+
+  good_sockets.remove(sock)
   sock.close()
 
 if __name__ == "__main__":
