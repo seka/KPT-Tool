@@ -65,3 +65,13 @@ class Entry(Base):
     self.cursor.execute(sql)
     self.connection.commit()
 
+  def update(self, colum, value, conditional):
+    sql = ""
+
+    if conditional:
+      sql = u"UPDATE %s SET %s='%s' WHERE %s;" % (self.table_name, colum, value, conditional)
+    else:
+      sql = u"UPDATE %s SET %s='%s';" % (self.table_name, colum, value)
+
+    self.cursor.execute(sql)
+    self.connection.commit()
