@@ -18,6 +18,7 @@ from db.Base import Base
 from db.Users import Users
 from db.Rooms import Rooms
 from db.Entry import Entry
+from db.Goods import Goods
 
 # app configs -------
 domain = "127.0.0.1"
@@ -72,6 +73,9 @@ entries.save(test_entry)
 entries.save(test_entry)
 entries.save(test_entry2)
 entries.save(test_entry2)
+
+goods = Goods()
+goods.create()
 # end ---------------------
 
 @app.before_request
