@@ -9,13 +9,11 @@
 {% endblock %}
 
 {% macro TEMPLATE_GOOD(kpt) -%}
-{% for g in goods %}
-  {%- if g.kpt_id == kpt.id %}
+{% for g in goods if g.kpt_id == kpt.id %}
     <button class="good-click-trigger" value="{{ kpt.id }}">取り消す({{ kpt.good }})</button>
-    {% break %}
-  {% endif %}
+{% else %}
   <button class="good-click-trigger" value="{{ kpt.id }}">そう思う！({{ kpt.good }})</button>
-{%- endfor %}
+{% endfor %}
 {%- endmacro %}
 
 {% macro TEMPLATE_ITEM(kpt) -%}
