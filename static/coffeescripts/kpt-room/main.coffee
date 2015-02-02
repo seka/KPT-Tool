@@ -103,11 +103,13 @@ define ["jquery", "underscore", "masonry", "modal"], ($, _, Masonry) ->
     el = $("#kptid-#{kptId}").find(".good-click-trigger")
     text = el.text()
 
-    console.log e
-
     if data.type is "sub"
+      if data.user?
+        text = text.replace "取り消す", "そう思う！"
       count = data.count - 1
     else
+      if data.user?
+        text = text.replace "そう思う！", "取り消す"
       count = data.count + 1
 
     el.text text.replace /\d+/, "#{count}"

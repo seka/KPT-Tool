@@ -218,10 +218,24 @@ def connect_websock_good():
       entries.update("good", good_cnt - 1, "id='%s'" % kpt_id)
 
     for s in good_sockets:
+      if parse_cookie(s.environ["HTTP_COOKIE"])["user_id"] == request.cookies.get("user_id"):
+        obj = obj.replace("}", ',"user": 1}')
+        print obj
       s.send(obj)
 
   good_sockets.remove(sock)
   sock.close()
+
+def parse_cookie(pure_cookie):
+  dic = dict()
+  tmp_cookie = pure_cookie.split(';')
+
+  for c in tmp_cookie:
+    c = c.strip()
+    parse = c.split('=')
+    dic[parse[0]] = parse[1]
+
+  return dic
 
 if __name__ == "__main__":
   print "* Running on http://%s:%d" % (domain, port)
