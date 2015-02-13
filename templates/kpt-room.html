@@ -27,7 +27,7 @@
         <button class="good-click-trigger state-clicked" value="{{ kpt.id }}">そう思う！({{ kpt.good }})</button>
       {% endif %}
     </li>
-    <li><a href="#">コメントする</a></li>
+    <li><a href="/{{kpt.room_id}}/comment/{{kpt.id}}">コメントする</a></li>
     <li><a href="#">コメントを見る</a></li>
   </ul>
   <div class="clear"></div>

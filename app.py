@@ -138,7 +138,7 @@ def signup():
   room_model.save(req)
   return redirect("/room/show/" + req["room_id"])
 
-app.secret_key = "secret_test"
+app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 @app.route("/room/show/<room_id>", methods=["GET"])
 def show_room(room_id):
   entries = Entry()
@@ -150,13 +150,37 @@ def show_room(room_id):
   cookie = request.cookies.get("user_id")
   if cookie is None:
     uid = uuid.uuid4()
-    res.set_cookie("user_id", str(uid))
     session["user_id"] = uid
   else:
     session["user_id"] = cookie
     good = goods.findAll("user_id='%s'" % cookie)
 
-  return render_template("kpt-room.html", room_id=room_id, items=items, goods=good)
+  response = make_response(render_template("kpt-room.html", room_id=room_id, items=items, goods=good))
+  response.set_cookie("user_id", session["user_id"])
+
+  return response
+
+@app.route("/<room_id>/comment/<kpt_id>", methods=["GET"])
+def show_comment(room_id, kpt_id):
+  entries = Entry()
+  kpt = entries.findOne("id='%s'" % kpt_id)
+  return render_template("comment.html", room_id=room_id, kpt_id=kpt_id, kpt=kpt)
+
+@app.route("/<room_id>/comment/<kpt_id>", methods=["POST"])
+def post_comment(room_id, kpt_id):
+  req = {
+    "kpt_id" : request.form["kpt-id"].encode("utf-8")
+    , "room_id" : request.form["room-id"].encode("utf-8")
+    , "comment" : request.form["comment"].encode("utf-8")
+  }
+
+  entries = Entry()
+  kpt = entries.findOne("id='%s'" % req["kpt_id"])
+
+  if (kpt is None or kpt["room_id"] != req["room_id"]):
+    return render_template("comment.html", room_id=room_id, kpt_id=req["kpt_id"], kpt=kpt, error=u"投稿に失敗しました")
+
+  return render_template("comment.html", room_id=room_id, kpt_id=req["kpt_id"], kpt=kpt, success="ok")
 
 @app.route("/websock/connect/room/<room_id>")
 def connect_websock(room_id):
