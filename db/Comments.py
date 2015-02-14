@@ -8,7 +8,7 @@ class Comments(Base):
   model = """
     id INTEGER PRIMARY KEY AUTOINCREMENT
     , kpt_id INTEGER NOT NULL
-    , comment TEXT NOT NULL
+    , text TEXT NOT NULL
   """
   scheme = None
 

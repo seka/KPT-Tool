@@ -175,7 +175,7 @@ def post_comment(room_id, kpt_id):
   req = {
     "kpt_id" : request.form["kpt-id"].encode("utf-8")
     , "room_id" : request.form["room-id"].encode("utf-8")
-    , "comment" : request.form["comment"].encode("utf-8")
+    , "text" : request.form["comment"].encode("utf-8")
   }
 
   entries = Entry()
@@ -183,6 +183,15 @@ def post_comment(room_id, kpt_id):
 
   if (kpt is None or kpt["room_id"] != req["room_id"]):
     return render_template("comment.html", room_id=room_id, kpt_id=req["kpt_id"], kpt=kpt, error=u"投稿に失敗しました")
+
+  comments = Comments()
+  comment = {
+    "kpt_id" : req["kpt_id"].decode("utf-8")
+    , "text" : req["text"].decode("utf-8")
+  }
+
+  if comments.save(comment) is not None:
+    return render_template("comment.html", room_id=room_id, kpt_id=req["kpt_id"], kpt=kpt, error=u"投稿の保存に失敗しました")
 
   return render_template("comment.html", room_id=room_id, kpt_id=req["kpt_id"], kpt=kpt, success="ok")
 
