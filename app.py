@@ -156,33 +156,33 @@ def show_room(room_id):
     uid = uuid.uuid4()
     session["user_id"] = uid
   else:
-    session["user_id"] = cookie
     good = goods.findAll("user_id='%s'" % cookie)
+    session["user_id"] = cookie
 
   response = make_response(render_template("kpt-room.html", room_id=room_id, items=items, goods=good))
   response.set_cookie("user_id", session["user_id"])
 
   return response
 
-@app.route("/<room_id>/comment/<kpt_id>", methods=["GET"])
-def show_comment(room_id, kpt_id):
+@app.route("/new/comment/<kpt_id>", methods=["GET"])
+def new_comment(kpt_id):
   entries = Entry()
   kpt = entries.findOne("id='%s'" % kpt_id)
-  return render_template("comment.html", room_id=room_id, kpt_id=kpt_id, kpt=kpt)
+  return render_template("comment.html", kpt=kpt)
 
-@app.route("/<room_id>/comment/<kpt_id>", methods=["POST"])
-def post_comment(room_id, kpt_id):
+@app.route("/post/comment/<kpt_id>", methods=["POST"])
+def post_comment(kpt_id):
   req = {
-    "kpt_id" : request.form["kpt-id"].encode("utf-8")
+    "kpt_id"    : request.form["kpt-id"].encode("utf-8")
     , "room_id" : request.form["room-id"].encode("utf-8")
-    , "text" : request.form["comment"].encode("utf-8")
+    , "text"    : request.form["comment"].encode("utf-8")
   }
 
   entries = Entry()
   kpt = entries.findOne("id='%s'" % req["kpt_id"])
 
   if (kpt is None or kpt["room_id"] != req["room_id"]):
-    return render_template("comment.html", room_id=room_id, kpt_id=req["kpt_id"], kpt=kpt, error=u"投稿に失敗しました")
+    return render_template("comment.html", kpt=kpt, error=u"投稿に失敗しました")
 
   comments = Comments()
   comment = {
@@ -191,9 +191,15 @@ def post_comment(room_id, kpt_id):
   }
 
   if comments.save(comment) is not None:
-    return render_template("comment.html", room_id=room_id, kpt_id=req["kpt_id"], kpt=kpt, error=u"投稿の保存に失敗しました")
+    return render_template("comment.html", kpt=kpt, error=u"投稿の保存に失敗しました")
 
-  return render_template("comment.html", room_id=room_id, kpt_id=req["kpt_id"], kpt=kpt, success="ok")
+  return render_template("comment.html", kpt=kpt, success="ok")
+
+@app.route("/show/comment/<kpt_id>", methods=["GET"])
+def show_comment(kpt_id):
+  entries = Entry()
+  kpt = entries.findOne("id='%s'" % kpt_id)
+  return render_template("show-comment.html", kpt=kpt)
 
 @app.route("/websock/connect/room/<room_id>")
 def connect_websock(room_id):

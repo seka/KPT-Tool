@@ -15,12 +15,12 @@
     {% if error  %} <p class="danger-message">Error: {{ error }}</p>{% endif %}
     {% if success  %} <p class="success-message">コメントを投稿しました!</p>{% endif %}
     <p style="padding: 0 2em;">{{ kpt.entry }}</p>
-    <form action="/{{ room_id }}/comment/{{ kpt_id }}" method="POST" class="pure-form pure-form-stacked">
+    <form action="/post/comment/{{ kpt.id }}" method="POST" class="pure-form pure-form-stacked">
       <fieldset>
         <label for="room-id"> KPTに対するコメント:</label>
         <textarea placeholder="Enter your room id" id="comment" name="comment" maxlength="200" style="width: 100%; height: 120px;"></textarea>
-        <input type="hidden" name="room-id" value="{{room_id}}" />
-        <input type="hidden" name="kpt-id" value="{{kpt_id}}" />
+        <input type="hidden" name="room-id" value="{{kpt.room_id}}" />
+        <input type="hidden" name="kpt-id" value="{{kpt.id}}" />
         <p class="form-submit">
           <button class="pure-button" type="submit" datawait="Please wait...">コメントする</button>
         </p>

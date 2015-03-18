@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block stylesehets %}
+  <link type="text/css" rel="stylesheet" href="/static/stylesheets/signin-room/main.css">
+{% endblock %}
+
+{% block javascripts %}
+  <script src="{{ url_for('static', filename='coffeescripts/signin-room/config.js')}}"></script>
+{% endblock %}
+
+{% block body %}
+<section class="form-section">
+  <div class="kpt-section-top">
+    <span>コメント一覧</span>
+  </div>
+  <div class="pure-u-1 pure-u-md-1-2 kpt-contents">
+    <div class="kpt-comments">
+      <p class="kpt-comments-supplement">コメント</p>
+      <div id="kpt-comments" class="kpt-boards">
+        {% for e in items %}
+          {{ TEMPLATE_ITEM(e) }}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
