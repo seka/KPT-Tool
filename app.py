@@ -213,7 +213,9 @@ def post_comment(kpt_id):
     return render_template("comment.html", kpt=kpt, error=u"投稿の保存に失敗しました")
 
   # websocketによる配信
+  comment.update({"type": "append"})
   obj = json.dumps(comment)
+
   if comment_sockets.has_key(kpt_id):
     for s in comment_sockets[kpt_id]:
       s.send(obj)
@@ -296,18 +298,24 @@ def connect_websock_good():
 @app.route("/websock/connect/comment/<kpt_id>")
 def connect_websock_comment(kpt_id):
   sock = request.environ['wsgi.websocket'];
+  comments = Comments()
 
   if not sock: return
 
   if not comment_sockets.has_key(kpt_id): comment_sockets[kpt_id] = list()
   comment_sockets[kpt_id].append(sock)
 
-  print kpt_id
-  print comment_sockets
-
   while True:
     obj = sock.receive();
     if obj is None: break
+
+    req = json.loads(obj)
+
+    if req["type"] in "remove":
+      print "test:", req["commentId"]
+      comments.delete("id=%s" % req["commentId"])
+      for s in comment_sockets[kpt_id]:
+        s.send(obj)
 
   comment_sockets[kpt_id].remove(sock)
   sock.close()
@@ -326,6 +334,7 @@ def parse_cookie(pure_cookie):
 if __name__ == "__main__":
   print "* Running on http://%s:%d" % (domain, port)
   print "* Restarting with reloader"
+
   app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 
   server = WSGIServer((domain, port), app, handler_class=WebSocketHandler)

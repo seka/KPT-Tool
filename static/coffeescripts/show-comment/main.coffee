@@ -1,6 +1,6 @@
 define ["jquery", "underscore", "masonry", "modal"], ($, _, Masonry) ->
   template = _.template """
-    <div id="commentid-<%- id %>" class="items">
+    <div id="<%- id %>" class="items">
       <p><%- comment %></p>
       <div class="clear"></div>
     </div>
@@ -16,11 +16,24 @@ define ["jquery", "underscore", "masonry", "modal"], ($, _, Masonry) ->
 
   sock.onmessage = (e) ->
     data = JSON.parse e.data
-    el = $ template
-      id: "#{data.kpt_id}"
-      comment: "#{data.text}"
+    switch data.type
+      when "append"
+        el = $ template
+          id: "#{data.kpt_id}"
+          comment: "#{data.text}"
 
-    # appendだと再配置がうまくいかない？
-    $(container).prepend el
-    masonry.prepended el
+        # appendだと再配置がうまくいかない？
+        $(container).prepend el
+        masonry.prepended el
 
+      when "remove"
+        $("#commentid-#{data.commentId}").remove()
+        masonry.remove $ "#commentid-#{data.commentId}"
+    masonry.layout()
+
+  $(".event-delete").click () ->
+    commentId = $(@).attr "id"
+    obj = JSON.stringify
+      commentId: commentId
+      type: "remove"
+    sock.send obj

@@ -101,3 +101,10 @@
   text-decoration : none;
 }
 
+.delete-button {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 15px;
+  right: 10px;
+}

@@ -10,6 +10,9 @@
 
 {% macro TEMPLATE_ITEM(comment) -%}
 <div id="commentid-{{ comment.id }}" class="items">
+  <a href="#" id="{{comment.id}}" class="event-delete delete-button">
+      <img src="{{ url_for('static', filename='images/common/delete.png')}}" />
+  </a>
   <p>{{ comment.text }}</p>
   <div class="clear"></div>
 </div>
