@@ -1,27 +1,30 @@
 {% extends "layout.html" %}
 
 {% block stylesehets %}
-  <link type="text/css" rel="stylesheet" href="/static/stylesheets/signin-room/main.css">
+  <link type="text/css" rel="stylesheet" href="/static/stylesheets/show-comment/main.css">
 {% endblock %}
 
 {% block javascripts %}
-  <script src="{{ url_for('static', filename='coffeescripts/signin-room/config.js')}}"></script>
+  <script src="{{ url_for('static', filename='coffeescripts/show-comment/config.js')}}"></script>
 {% endblock %}
 
+{% macro TEMPLATE_ITEM(comment) -%}
+<div id="commentid-{{ comment.id }}" class="items">
+  <p>{{ comment.text }}</p>
+  <div class="clear"></div>
+</div>
+{%- endmacro %}
+
 {% block body %}
-<section class="form-section">
-  <div class="kpt-section-top">
+<section class="comment-section">
+  <div class="comment-section-top">
     <span>コメント一覧</span>
+    <input id="kpt-id" type="hidden" value="{{kpt_id}}" />
   </div>
-  <div class="pure-u-1 pure-u-md-1-2 kpt-contents">
-    <div class="kpt-comments">
-      <p class="kpt-comments-supplement">コメント</p>
-      <div id="kpt-comments" class="kpt-boards">
-        {% for e in items %}
-          {{ TEMPLATE_ITEM(e) }}
-        {% endfor %}
-      </div>
-    </div>
+  <div id="kpt-comments" class="pure-u-1 comment-boards">
+    {% for e in items %}
+      {{ TEMPLATE_ITEM(e) }}
+    {% endfor %}
   </div>
 </section>
 {% endblock %}

@@ -12,6 +12,7 @@ from flask_sockets import Sockets
 
 sockets = dict()
 good_sockets = list()
+comment_sockets = dict()
 
 # models -------
 from db.Base import Base
@@ -78,8 +79,25 @@ entries.save(test_entry2)
 goods = Goods()
 goods.create()
 
+test_comment = {
+  "kpt_id" : 1
+  , "text" : u"テストのコメントです"
+}
+
+test_comment2 = {
+  "kpt_id" : 1
+  , "text" : u"テストのコメントです2"
+}
+test_comment3 = {
+  "kpt_id" : 2
+  , "text" : u"テスト2のコメントです"
+}
+
 comments = Comments()
 comments.create()
+comments.save(test_comment)
+comments.save(test_comment2)
+comments.save(test_comment3)
 # end ---------------------
 
 @app.before_request
@@ -160,7 +178,8 @@ def show_room(room_id):
     session["user_id"] = cookie
 
   response = make_response(render_template("kpt-room.html", room_id=room_id, items=items, goods=good))
-  response.set_cookie("user_id", session["user_id"])
+  # response.set_cookie("user_id", session["user_id"])
+  response.set_cookie("user_id", "test")
 
   return response
 
@@ -193,13 +212,19 @@ def post_comment(kpt_id):
   if comments.save(comment) is not None:
     return render_template("comment.html", kpt=kpt, error=u"投稿の保存に失敗しました")
 
+  # websocketによる配信
+  obj = json.dumps(comment)
+  if comment_sockets.has_key(kpt_id):
+    for s in comment_sockets[kpt_id]:
+      s.send(obj)
+
   return render_template("comment.html", kpt=kpt, success="ok")
 
 @app.route("/show/comment/<kpt_id>", methods=["GET"])
 def show_comment(kpt_id):
-  entries = Entry()
-  kpt = entries.findOne("id='%s'" % kpt_id)
-  return render_template("show-comment.html", kpt=kpt)
+  comments = Comments()
+  comment = comments.findAll("kpt_id='%s'" % kpt_id)
+  return render_template("show-comment.html", items=comment, kpt_id=kpt_id)
 
 @app.route("/websock/connect/room/<room_id>")
 def connect_websock(room_id):
@@ -263,10 +288,28 @@ def connect_websock_good():
     for s in good_sockets:
       if parse_cookie(s.environ["HTTP_COOKIE"])["user_id"] == request.cookies.get("user_id"):
         obj = obj.replace("}", ',"user": 1}')
-        print obj
       s.send(obj)
 
   good_sockets.remove(sock)
+  sock.close()
+
+@app.route("/websock/connect/comment/<kpt_id>")
+def connect_websock_comment(kpt_id):
+  sock = request.environ['wsgi.websocket'];
+
+  if not sock: return
+
+  if not comment_sockets.has_key(kpt_id): comment_sockets[kpt_id] = list()
+  comment_sockets[kpt_id].append(sock)
+
+  print kpt_id
+  print comment_sockets
+
+  while True:
+    obj = sock.receive();
+    if obj is None: break
+
+  comment_sockets[kpt_id].remove(sock)
   sock.close()
 
 def parse_cookie(pure_cookie):

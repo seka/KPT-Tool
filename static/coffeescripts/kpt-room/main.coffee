@@ -3,7 +3,7 @@ define ["jquery", "underscore", "masonry", "modal"], ($, _, Masonry) ->
     <div class="items">
       <p><%- entry %></p>
       <ul>
-        <li><a href="#">そう思う！</a></li>
+        <li><a href="#" class="good-click-trigger">そう思う！</a></li>
         <li><a href="#">コメントする</a></li>
         <li><a href="#">コメントを見る</a></li>
       </ul>
