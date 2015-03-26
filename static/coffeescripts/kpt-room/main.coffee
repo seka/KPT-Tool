@@ -34,6 +34,9 @@ define ["jquery", "underscore", "masonry", "modal"], ($, _, Masonry) ->
     el = $ template
       entry: "#{data.entry}"
 
+    console.log "test ----------"
+    console.log data
+
     # appendだと再配置がうまくいかない？
     switch data.type
       when "keep"
@@ -45,8 +48,23 @@ define ["jquery", "underscore", "masonry", "modal"], ($, _, Masonry) ->
       when "try"
         $(tryContainer).prepend el
         tryMasonry.prepended el
+      when "remove"
+        $("#kptid-#{data.kpt_id}").remove()
+        keepMasonry.remove $ "#kptid-#{data.kpt_id}"
+        problemMasonry.remove $ "#kptid-#{data.kpt_id}"
+
+    keepMasonry.layout()
+    problemMasonry.layout()
+    tryMasonry.layout()
 
   sock.onopen = () ->
+    $(".event-delete").click () ->
+      kptId = $(@).attr "id"
+      obj = JSON.stringify
+        kpt_id: kptId
+        type: "remove"
+      sock.send obj
+
     $(".kpt-click-trigger").click (e) ->
       roomId = $("#room-id").val()
       msg = $("#kpt-message").val()
@@ -113,3 +131,4 @@ define ["jquery", "underscore", "masonry", "modal"], ($, _, Masonry) ->
       count = data.count + 1
 
     el.text text.replace /\d+/, "#{count}"
+

@@ -244,13 +244,17 @@ def connect_websock(room_id):
 
     req = json.loads(obj)
 
-    entry = {
-      "room_id" : req["room_id"]
-      , "entry" : req["entry"]
-      , "type"  : req["type"]
-      , "good"  : 0
-    }
-    entries.save(entry)
+    if req["type"] in {"keep", "problem", "try"}:
+      entry = {
+        "room_id" : req["room_id"]
+        , "entry" : req["entry"]
+        , "type"  : req["type"]
+        , "good"  : 0
+      }
+      entries.save(entry)
+
+    if req["type"] in "remove":
+      entries.delete("id=%s" % req["kpt_id"])
 
     for s in sockets[room_id]:
       s.send(obj)

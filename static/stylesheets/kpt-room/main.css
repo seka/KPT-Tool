@@ -176,3 +176,11 @@
   background: #E2A9AF;
   color: white;
 }
+
+.delete-button {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 15px;
+  right: 10px;
+}
