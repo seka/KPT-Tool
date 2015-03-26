@@ -1,7 +1,7 @@
 #!usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from db.Base import Base
+from Base import Base
 
 class Entry(Base):
   table_name = "Entry"
