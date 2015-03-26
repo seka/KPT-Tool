@@ -23,11 +23,16 @@ from db.Goods import Goods
 from db.Comments import Comments
 
 # app configs -------
-domain = "127.0.0.1"
-port = 5000
-
 app = Flask(__name__)
+
+f = open("./config/config.json", "r")
+config = json.load(f)
+domain = config["app_domain"]
+port   = config["app_port"]
+
 app.debug = True
+app.secret_key = config["app_secret"]
+
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
 
 # test --------------------
@@ -160,7 +165,6 @@ def signup():
   room_model.save(req)
   return redirect("/room/show/" + req["room_id"])
 
-app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 @app.route("/room/show/<room_id>", methods=["GET"])
 def show_room(room_id):
   entries = Entry()

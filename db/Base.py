@@ -13,11 +13,12 @@ class Base(object):
     return cls.instance
 
   def __init__(self):
-    f = open("./db/config/config_db.json", "r")
+    # 起動した場所からのpath
+    f = open("./config/config.json", "r")
     config = json.load(f)
 
-    self.path = config["path"]
-    self.secret = config["secret"]
+    self.path = config["db_path"]
+    self.secret = config["db_secret"]
 
     self.connection = sqlite3.connect(self.path)
     self.connection.row_factory = sqlite3.Row

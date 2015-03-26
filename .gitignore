@@ -1,8 +1,9 @@
 # project -----------------------------------------------------
 # confidential data
-db/config/*.json
 static/*/*.js
 static/*/*.map
+
+config/*.json
 
 # python -------------------------------------------------------
 # Byte-compiled / optimized / DLL files
