@@ -10,8 +10,8 @@ from gevent.pywsgi import WSGIServer
 from geventwebsocket.handler import WebSocketHandler
 from flask_sockets import Sockets
 
-kpt_sockets = dict()
-good_sockets = list()
+kpt_sockets     = dict()
+good_sockets    = list()
 comment_sockets = dict()
 
 # models -------
@@ -24,6 +24,9 @@ from db.Comments import Comments
 
 # utile --------
 from services.utils.cookie import *
+
+from db.test import *
+db_test(config)
 
 # app configs -------
 app = Flask(__name__)
@@ -53,21 +56,18 @@ def render_signin():
 @app.route('/signin', methods=["POST"])
 def signin():
   req = {
-    "room_id" : request.form["room-id"]
+    "room_id"    : request.form["room-id"].encode("utf-8")
     , "password" : request.form["password"].encode("utf-8")
   }
+  salt = config["salt"].encode("utf-8")
 
   room_model = Rooms()
-  room = room_model.find("room_id='%s'" % req["room_id"])
+  req["password"] = room_model.hash_passwd(req["password"], salt)
+  room = room_model.find("room_id='%s' and password='%s'" % (req["room_id"], req["password"]))
 
   if room is None:
     return render_template("signin-room.html", error=u"IDまたはパスワードが違います")
 
-  hashpw = room["password"]
-  salt = room["salt"].encode("utf-8")
-
-  if room_model.check_passwd(req["password"], salt, hashpw) != True:
-    return render_template("signin-room.html", error=u"IDまたはパスワードが違います")
   return redirect("/room/show/" + req["room_id"])
 
 @app.route('/signout', methods=["POST"])

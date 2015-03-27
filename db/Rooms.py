@@ -10,7 +10,6 @@ class Rooms(Base):
     id INTEGER PRIMARY KEY AUTOINCREMENT
     , room_id TEXT NOT NULL
     , password TEXT DEFAULT ''
-    , salt TEXT NOT NULL
   """
   scheme = None
 
@@ -19,15 +18,8 @@ class Rooms(Base):
 
     self.scheme = scheme
 
-  def _generate_passwd(self, passwd=""):
-    salt = bcrypt.gensalt()
-    hashpw = bcrypt.hashpw(passwd, salt)
-    return ["'%s'" % hashpw, "'%s'" % salt]
-
-  def check_passwd(self, passwd, hashed, hashpw):
-    if bcrypt.hashpw(passwd, hashed) != hashpw:
-      return False
-    return True
+  def hash_passwd(self, passwd="", salt=""):
+    return bcrypt.hashpw(passwd, salt)
 
   def create(self):
     sql = u"DROP TABLE IF EXISTS %s;" % self.table_name
@@ -46,19 +38,12 @@ class Rooms(Base):
 
     return self.cursor.execute(sql).fetchone()
 
-  def save(self, items={}):
+  def save(self, items={}, salt="$2a$12$KDhb/Zbwl7l7OxCg5N3HaO"):
     keys = []
     values = []
 
-    if items.has_key("salt"):
-      del items["salt"]
-
     for k, v in items.iteritems():
-      if k == "password":
-        keys.extend(["'password'", "'salt'"])
-        values.extend(self._generate_passwd(v))
-        continue
-
+      if k == "password": v = self.hash_passwd(v, salt)
       keys.append("'" + k + "'")
       values.append("'" + v + "'")
 
