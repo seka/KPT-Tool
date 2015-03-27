@@ -10,7 +10,7 @@ from gevent.pywsgi import WSGIServer
 from geventwebsocket.handler import WebSocketHandler
 from flask_sockets import Sockets
 
-sockets = dict()
+kpt_sockets = dict()
 good_sockets = list()
 comment_sockets = dict()
 
@@ -162,8 +162,8 @@ def connect_kpt_websock(room_id):
 
   if not sock: return
 
-  if not sockets.has_key(room_id): sockets[room_id] = list()
-  sockets[room_id].append(sock)
+  if not kpt_sockets.has_key(room_id): kpt_sockets[room_id] = list()
+  kpt_sockets[room_id].append(sock)
 
   while True:
     obj = sock.receive();
@@ -183,10 +183,10 @@ def connect_kpt_websock(room_id):
     if req["type"] in "remove":
       entries.delete("id=%s" % req["kpt_id"])
 
-    for s in sockets[room_id]:
+    for s in kpt_sockets[room_id]:
       s.send(obj)
 
-  sockets[room_id].remove(sock)
+  kpt_sockets[room_id].remove(sock)
   sock.close()
 
 @app.route("/websock/connect/good")
