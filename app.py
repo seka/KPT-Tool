@@ -39,15 +39,15 @@ app.secret_key = config["app_secret"]
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
 
 @app.route("/")
-def index():
+def render_top():
   return render_template("top.html")
 
 @app.route("/create-room", methods=["GET"])
-def create_room():
+def render_make_room():
   return render_template("create-room.html")
 
 @app.route("/signin-room", methods=["GET"])
-def signin_room():
+def render_signin():
   return render_template("signin-room.html")
 
 @app.route('/signin', methods=["POST"])
@@ -89,7 +89,7 @@ def signup():
   return redirect("/room/show/" + req["room_id"])
 
 @app.route("/room/show/<room_id>", methods=["GET"])
-def show_room(room_id):
+def render_room(room_id):
   entries = Entry()
   items = entries.findAll(u"room_id='%s' ORDER BY room_id DESC" % room_id)
 
@@ -111,13 +111,13 @@ def show_room(room_id):
   return response
 
 @app.route("/new/comment/<kpt_id>", methods=["GET"])
-def new_comment(kpt_id):
+def render_comment(kpt_id):
   entries = Entry()
   kpt = entries.findOne("id='%s'" % kpt_id)
   return render_template("comment.html", kpt=kpt)
 
 @app.route("/post/comment/<kpt_id>", methods=["POST"])
-def post_comment(kpt_id):
+def new_comment(kpt_id):
   req = {
     "kpt_id"    : request.form["kpt-id"].encode("utf-8")
     , "room_id" : request.form["room-id"].encode("utf-8")
@@ -156,7 +156,7 @@ def show_comment(kpt_id):
   return render_template("show-comment.html", items=comment, kpt_id=kpt_id)
 
 @app.route("/websock/connect/room/<room_id>")
-def connect_websock(room_id):
+def connect_kpt_websock(room_id):
   sock = request.environ['wsgi.websocket'];
   entries = Entry()
 
@@ -190,7 +190,7 @@ def connect_websock(room_id):
   sock.close()
 
 @app.route("/websock/connect/good")
-def connect_websock_good():
+def connect_good_websock():
   sock = request.environ['wsgi.websocket'];
   goods = Goods()
   entries = Entry()
@@ -227,7 +227,7 @@ def connect_websock_good():
   sock.close()
 
 @app.route("/websock/connect/comment/<kpt_id>")
-def connect_websock_comment(kpt_id):
+def connect_comment_websock(kpt_id):
   sock = request.environ['wsgi.websocket'];
   comments = Comments()
 
