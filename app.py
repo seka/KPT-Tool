@@ -22,6 +22,9 @@ from db.Entry import Entry
 from db.Goods import Goods
 from db.Comments import Comments
 
+# utile --------
+from services.utils.cookie import *
+
 # app configs -------
 app = Flask(__name__)
 
@@ -34,16 +37,6 @@ app.debug = True
 app.secret_key = config["app_secret"]
 
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
-
-@app.before_request
-def before_request():
-  base = Base()
-  g.db = base.connection
-
-@app.after_request
-def after_request(response):
-  g.db.close()
-  return response
 
 @app.route("/")
 def index():
@@ -257,17 +250,6 @@ def connect_websock_comment(kpt_id):
 
   comment_sockets[kpt_id].remove(sock)
   sock.close()
-
-def parse_cookie(pure_cookie):
-  dic = dict()
-  tmp_cookie = pure_cookie.split(';')
-
-  for c in tmp_cookie:
-    c = c.strip()
-    parse = c.split('=')
-    dic[parse[0]] = parse[1]
-
-  return dic
 
 if __name__ == "__main__":
   print "* Running on http://%s:%d" % (domain, port)
