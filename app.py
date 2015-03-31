@@ -98,15 +98,15 @@ def render_room(room_id):
 
   cookie = request.cookies.get("user_id")
   if cookie is None:
+    # ハイフンが入るとエラーになるのでhexにして対応する
     uid = uuid.uuid4()
-    session["user_id"] = uid
+    session["user_id"] = uid.hex
   else:
     good = goods.findAll("user_id='%s'" % cookie)
     session["user_id"] = cookie
 
   response = make_response(render_template("kpt-room.html", room_id=room_id, items=items, goods=good))
-  # response.set_cookie("user_id", session["user_id"])
-  response.set_cookie("user_id", "test")
+  response.set_cookie("user_id", session["user_id"])
 
   return response
 
