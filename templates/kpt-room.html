@@ -18,7 +18,7 @@
 
 {% macro TEMPLATE_ITEM(kpt) -%}
 <div id="kptid-{{ kpt.id }}" class="items">
-  <a href="#" id="{{kpt.id}}" class="event-delete delete-button">
+  <a href="#" id="{{kpt.id}}" class="event-delete-kpt delete-button">
       <img src="{{ url_for('static', filename='images/common/delete.png')}}" />
   </a>
   <p>{{ kpt.entry }}</p>
@@ -43,7 +43,7 @@
     <span>ルーム：{{room_id}}</span>
     <ul>
       <li><a href="#kpt-modal" class="button-success pure-button">投稿</a></li>
-      <li><a href="#" class="button-error pure-button">ルームを削除する</a></li>
+      <li><a href="#" id="{{ room_id }}" class="event-delete-room button-error pure-button">ルームを削除する</a></li>
     </ul>
     <div class="clear"></div>
   </div>

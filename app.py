@@ -25,8 +25,10 @@ from db.Comments import Comments
 # utile --------
 from services.utils.cookie import *
 
+"""
 from db.test import *
 db_test(config)
+"""
 
 # app configs -------
 app = Flask(__name__)
@@ -70,6 +72,7 @@ def signin():
 
   return redirect("/room/show/" + req["room_id"])
 
+# ユーザ登録はしないため、ログアウトの処理を書いていない
 @app.route('/signout', methods=["POST"])
 def signout():
   pass
@@ -109,6 +112,23 @@ def render_room(room_id):
   response.set_cookie("user_id", session["user_id"])
 
   return response
+
+@app.route("/room/delete/<room_id>", methods=["GET"])
+def delete_room(room_id):
+  rooms = Rooms()
+  entries = Entry()
+  goods = Goods()
+  comments = Comments()
+
+  entry = entries.findAll(u"room_id='%s'" % room_id)
+  for e in entry:
+    goods.delete(u"kpt_id='%s'" % e["id"])
+    comments.delete(u"kpt_id='%s'" % e["id"])
+
+  entries.delete(u"room_id='%s'" % room_id)
+  rooms.delete(u"room_id='%s'" % room_id)
+
+  return "Success"
 
 @app.route("/new/comment/<kpt_id>", methods=["GET"])
 def render_comment(kpt_id):
